@@ -1,5 +1,8 @@
 # Chat Parser
-An issue we're running to at StreamJar is everybody handles their chats completely different. Which means, when it comes to displaying the chat, we need multiple implementations to display chat. The aim of this module is to take the chat and provide it in a standard format, allowing for easy use.
+[![Build Status](https://travis-ci.org/StreamJar/ChatParser.svg?branch=master)](https://travis-ci.org/StreamJar/ChatParser)
+[![Coverage Status](https://coveralls.io/repos/github/StreamJar/ChatParser/badge.svg?branch=master)](https://coveralls.io/github/StreamJar/ChatParser?branch=master)
+
+An issue we're running to at StreamJar is everybody handles their chats completely different. Which when you want to support lots of different services in the same way, it can cause less than ideal situations.
 
 ## Quick Note.
 Hitbox has it's quirks, one being that they send no information on emotes with the chat event. Handling API requests is out of the scope of this module but you can find the emotes at `https://www.hitbox.tv/api/chat/emotes/luket.json`. Once you've got (and possibly cached) the JSON call the following to make the module aware.
@@ -7,10 +10,17 @@ Hitbox has it's quirks, one being that they send no information on emotes with t
 parser.loadHitboxEmotes(object);
 ```
 
+
+## Installation
+To install, simply install it via NPM.
+```
+npm install --save chat-parser
+```
+
 ## Getting Started
 Getting started is simple. Require the module, create a new instance.. and parse.
 ```
-import {default as Parser, Platforms } from '@streamjar/chat-parser';
+import {default as Parser, Platforms } from 'chat-parser';
 
 const parser = new Parser();
 parser.parse(Platforms.Beam, {
