@@ -2,6 +2,8 @@ import * as I from '../interfaces';
 import { Parser } from './Parser';
 
 export class BeamParser extends Parser<I.BeamRawMessage> {
+	type = 'beam';
+	
 	public getRoles(): String[] {
 		return this.message.user_roles;
 	}

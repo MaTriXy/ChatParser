@@ -2,6 +2,7 @@ import * as I from '../interfaces';
 import { Parser } from './Parser';
 
 export class TwitchParser extends Parser<I.TwitchRawMessage> {
+	type = 'twitch';
 	private meta: any = [];
 	private emoteMapping: any = [];
 
@@ -95,7 +96,7 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 					text: string,
 					identifier: {
 						type: 'direct',
-						url: this.emoteMapping[string]
+						url: `http://static-cdn.jtvnw.net/emoticons/v1/${this.emoteMapping[string]}/1.0`,
 					}
 				});
 			} else if (string.indexOf("@") == 0) {

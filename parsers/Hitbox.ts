@@ -2,6 +2,8 @@ import * as I from '../interfaces';
 import { Parser } from './Parser';
 
 export class HitboxParser extends Parser<I.HitboxRawMessage> {
+	type = 'hitbox';
+
 	private emoteMapping: String[] = [];
 	constructor(message: I.HitboxRawMessage, emotes: any) {
 		super(message);
@@ -57,7 +59,7 @@ export class HitboxParser extends Parser<I.HitboxRawMessage> {
 		 * Luke @ StreamJar.
 		 */
 		let text = this.message.text.replace(/<a href=[\'"]?([^\'" >]+).+">(.*)<\/a>/g, "$1"); // We can handle URL parsing on our own.
-		text = text.replace(/<div>.+<\/div>/g, ''); // Strip out inline images
+		text = text.replace(/<div.+<\/div>/g, ''); // Strip out inline images
 
 		text.split(" ").forEach((string: string) => {
 			if (this.emoteMapping[string]) {
@@ -66,7 +68,7 @@ export class HitboxParser extends Parser<I.HitboxRawMessage> {
 					text: string,
 					identifier: {
 						type: 'direct',
-						url: `https://hitbox.tv${this.emoteMapping[string]}`,
+						url: `https://edge.sf.hitbox.tv${this.emoteMapping[string]}`,
 					}
 				});
 			} else if (string.indexOf("@") == 0) {
