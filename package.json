@@ -1,0 +1,56 @@
+{
+  "name": "chat-parser",
+  "version": "1.0.0",
+  "description": "Parse chat from streaming platforms into a a single format.",
+  "main": "compiled/index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/mocha": "^2.2.34",
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.15",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "nyc": "^10.0.0",
+    "ts-node": "^1.7.2",
+    "typescript": "^2.1.4"
+  },
+  "scripts": {
+    "prepublish": "tsc index.ts --outDir compiled/",
+    "test": "mocha --require ts-node/register --watch-extensions tsx,ts test/*.ts",
+    "cover": "nyc --require ts-node/register --reporter=lcov --reporter=text-lcov npm test | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StreamJar/ChatParser.git"
+  },
+  "author": "Luke Thompson <luke@streamjar.tv>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/StreamJar/ChatParser/issues"
+  },
+  "homepage": "https://github.com/StreamJar/ChatParser#readme",
+  "nyc": {
+    "include": [
+      "*.ts",
+      "**/*.ts"
+    ],
+    "exclude": [
+      "node_modules/"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "text-summary",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true
+  }
+}
