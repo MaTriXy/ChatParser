@@ -1,6 +1,6 @@
 {
   "name": "chat-parser",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Parse chat from streaming platforms into a a single format.",
   "main": "compiled/index.js",
   "directories": {
@@ -19,7 +19,7 @@
   },
   "scripts": {
     "prepublish": "tsc index.ts --outDir compiled/",
-    "build": "tsc index.ts --outDir compiled/",
+    "postinstall": "tsc index.ts --outDir compiled/",
     "test": "mocha --require ts-node/register --watch-extensions tsx,ts test/*.ts",
     "cover": "nyc --require ts-node/register --reporter=lcov --reporter=text-lcov npm test | coveralls"
   },
