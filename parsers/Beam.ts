@@ -27,7 +27,7 @@ export class BeamParser extends Parser<I.BeamRawMessage> {
 				if (piece.text === '' || piece.text === ' ') return;
 
 				piece.text.split(' ').forEach(bit => {
-					if (piece.text === '' || piece.text === ' ') return;
+					if (bit === '' || bit === ' ') return;
 	
 					parts.push({
 						type: 'text',
