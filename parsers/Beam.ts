@@ -26,9 +26,13 @@ export class BeamParser extends Parser<I.BeamRawMessage> {
 			if (piece.type === 'text') {
 				if (piece.text === '' || piece.text === ' ') return;
 
-				parts.push({
-					type: 'text',
-					text: piece.text
+				piece.text.split(' ').forEach(bit => {
+					if (piece.text === '' || piece.text === ' ') return;
+	
+					parts.push({
+						type: 'text',
+						text: bit
+					});
 				});
 			} else if (piece.type === 'emoticon') {
 				parts.push({

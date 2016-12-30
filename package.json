@@ -1,10 +1,14 @@
 {
   "name": "chat-parser",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Parse chat from streaming platforms into a a single format.",
   "main": "compiled/index.js",
   "directories": {
     "example": "examples"
+  },
+  "dependencies": {
+    "ts-node": "^1.7.2",
+    "typescript": "^2.1.4"
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",
@@ -14,8 +18,6 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "nyc": "^10.0.0",
-    "ts-node": "^1.7.2",
-    "typescript": "^2.1.4"
   },
   "scripts": {
     "prepublish": "tsc index.ts --outDir compiled/",
