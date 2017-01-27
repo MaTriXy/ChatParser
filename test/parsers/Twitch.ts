@@ -37,7 +37,7 @@ describe("Parses Twitch", () => {
 
 	describe('parses message correctly', () => {
 		it('has the right number of components', () => {
-			chai.expect(parsed.message).to.have.length(5);
+			chai.expect(parsed.message).to.have.length(6);
 		})
 
 		it('begins with text', () => {
@@ -60,5 +60,8 @@ describe("Parses Twitch", () => {
 			chai.expect(parsed.message[4].identifier).to.equal('StreamJar');
 		})
 
+		it('doesn\'t turn javascript methods into emotes', () => {
+			chai.expect(parsed.message[5].type).to.equal('text');
+		});
 	})
 });

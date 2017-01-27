@@ -90,7 +90,7 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 		const parts = [];
 		
 		this.getChatMessage().split(' ').forEach(string => {
-			if (this.emoteMapping[string]) {
+			if (typeof this.emoteMapping[string] === 'number') {
 				parts.push({
 					type: 'emoticon',
 					text: string,

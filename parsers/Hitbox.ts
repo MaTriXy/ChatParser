@@ -62,7 +62,7 @@ export class HitboxParser extends Parser<I.HitboxRawMessage> {
 		text = text.replace(/<div.+<\/div>/g, ''); // Strip out inline images
 
 		text.split(" ").forEach((string: string) => {
-			if (this.emoteMapping[string]) {
+			if (typeof this.emoteMapping[string] === 'string') {
 				parts.push({
 					type: 'emoticon',
 					text: string,

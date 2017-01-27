@@ -47,7 +47,7 @@ describe("Parses Hitbox", () => {
 
 		describe('parses message correctly', () => {
 			it('has the right number of components', () => {
-				chai.expect(parsed.message).to.have.length(5);
+				chai.expect(parsed.message).to.have.length(6);
 			})
 
 			it('begins with text', () => {
@@ -87,5 +87,9 @@ describe("Parses Hitbox", () => {
 		it('sees the emoticon as direct', () => {
 			chai.expect(parsed.message[1].identifier.type).to.equal('direct');
 		})
+
+		it('doesn\'t turn javascript methods into emotes', () => {
+			chai.expect(parsed.message[5].type).to.equal('text');
+		});
 	})
 });
