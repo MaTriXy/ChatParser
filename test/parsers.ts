@@ -30,9 +30,9 @@ describe("Parses Chat", () => {
 	});
 
 	it("Should parse Youtube", () => {
-		chai.expect(parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON)).to.have.property('user');
-		chai.expect(parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON)).to.have.property('raw');
-		chai.expect(parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON)).to.have.property('message');
+		chai.expect(parser.parseMessage(Platforms.Youtube, Example.youtubeJSON)).to.have.property('user');
+		chai.expect(parser.parseMessage(Platforms.Youtube, Example.youtubeJSON)).to.have.property('raw');
+		chai.expect(parser.parseMessage(Platforms.Youtube, Example.youtubeJSON)).to.have.property('message');
 	});
 });
 
