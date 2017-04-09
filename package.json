@@ -8,6 +8,10 @@
     "example": "examples"
   },
   "dependencies": {
+    "@types/chai": "^3.4.35",
+    "@types/mocha": "^2.2.40",
+    "emoji-regex": "^6.4.2",
+    "gemoji": "^4.1.0",
     "ts-node": "^1.7.2",
     "typescript": "^2.1.4"
   },

@@ -1,8 +1,8 @@
 import * as Example from '../../examples';
 import { default as Parser, Platforms } from '../../';
 import * as chai from 'chai';
-import {} from '@typings/chai';
-import {} from '@typings/mocha';
+import { } from '@types/chai';
+import { } from '@types/mocha';
 
 describe("Parses Hitbox", () => {
 	let parser;

@@ -29,6 +29,33 @@ export interface HitboxRawMessage {
 	image: String,
 }
 
+export interface YoutubeRawMessage {
+	kind: string;
+	etag: string;
+	id: string;
+
+	snippet: {
+		type: string;
+		liveChatId: string;
+		authorChannelId: string;
+		publishedAt: string;
+		hasDisplayContent: boolean;
+		displayMessage: string;
+		textMessageDetails: any; // eh
+	};
+
+	authorDetails: {
+		channelId: string;
+		channelUrl: string;
+		displayName: string;
+		profileImageUrl: string;
+		isVerified: boolean;
+		isChatOwner: boolean;
+		isChatSponsor: boolean;
+		isChatModerator: boolean;
+	}
+}
+
 export interface Message {
 }
 

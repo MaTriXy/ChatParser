@@ -1,8 +1,8 @@
 import * as Example from '../examples';
 import { default as Parser, Platforms } from '../';
 import * as chai from 'chai';
-import {} from '@typings/chai';
-import {} from '@typings/mocha';
+import { } from '@types/chai';
+import { } from '@types/mocha';
 
 describe("Parses Chat", () => {
 	let parser;
@@ -28,8 +28,15 @@ describe("Parses Chat", () => {
 		chai.expect(parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON)).to.have.property('raw');
 		chai.expect(parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON)).to.have.property('message');
 	});
+
+	it("Should parse Youtube", () => {
+		chai.expect(parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON)).to.have.property('user');
+		chai.expect(parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON)).to.have.property('raw');
+		chai.expect(parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON)).to.have.property('message');
+	});
 });
 
 import './parsers/Beam';
 import './parsers/Twitch';
 import './parsers/Hitbox';
+import './parsers/Youtube';

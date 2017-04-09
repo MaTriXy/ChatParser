@@ -4,13 +4,13 @@ import * as chai from 'chai';
 import { } from '@types/chai';
 import { } from '@types/mocha';
 
-describe("Parses Twitch", () => {
+describe("Parses Youtube", () => {
 	let parser;
 	let parsed;
 		
 	beforeEach(() => {
 		parser = new Parser();
-		parsed = parser.parseMessage(Platforms.Twitch, Example.twitchJSON.string);
+		parsed = parser.parseMessage(Platforms.Youtube, Example.youtubeJSON);
 	});
 
 
@@ -25,13 +25,9 @@ describe("Parses Twitch", () => {
 			chai.expect(parsed.user.roles).to.contain('Streamer');
 		});
 
-		it('Thinks the user is staff', () => {
-			chai.expect(parsed.user.roles).to.contain('Staff');
-		});
-
 		it("Should have the correct user object", () => {
 			chai.expect(parsed.user.username).to.equal('StreamJar');
-			chai.expect(parsed.user.userId).to.equal(1);
+			chai.expect(parsed.user.userId).to.equal("UCHcE6_xxE2-9NMY9hDX_cfw");
 		});
 	})
 
@@ -57,7 +53,7 @@ describe("Parses Twitch", () => {
 
 		it('contains a mention', () => {
 			chai.expect(parsed.message[4].type).to.equal('mention');
-			chai.expect(parsed.message[4].identifier).to.equal('StreamJar');
+			chai.expect(parsed.message[4].identifier).to.equal('StreamJar2');
 		})
 
 		it('doesn\'t turn javascript methods into emotes', () => {
