@@ -18,7 +18,7 @@ export const youtubeJSON = {
         profileImageUrl: 'https://yt3.ggpht.com/-EaTrVTITF_M/AAAAAAAAAAI/AAAAAAAAAAA/v2woIMWRmCA/s88-c-k-no-mo-rj-c0xffffff/photo.jpg',
         isVerified: false,
         isChatOwner: true,
-        isChatSponsor: false,
-        isChatModerator: false
+        isChatSponsor: true,
+        isChatModerator: true
     }
 };

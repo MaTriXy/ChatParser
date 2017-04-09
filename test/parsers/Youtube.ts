@@ -25,6 +25,18 @@ describe("Parses Youtube", () => {
 			chai.expect(parsed.user.roles).to.contain('Streamer');
 		});
 
+		it('Thinks the user is a moderator', () => {
+			chai.expect(parsed.user.roles).to.contain('Mod');
+		});
+
+		it('Thinks the user is a sponser', () => {
+			chai.expect(parsed.user.roles).to.contain('Subscriber');
+		});
+
+		it('Thinks the user is the streamer', () => {
+			chai.expect(parsed.user.roles).to.contain('Streamer');
+		});
+
 		it("Should have the correct user object", () => {
 			chai.expect(parsed.user.username).to.equal('StreamJar');
 			chai.expect(parsed.user.userId).to.equal("UCHcE6_xxE2-9NMY9hDX_cfw");

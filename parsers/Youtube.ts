@@ -1,7 +1,6 @@
 import * as I from '../interfaces';
 import { Parser } from './Parser';
 import * as emojiRegex from 'emoji-regex';
-import * as gemoji from 'gemoji';
 
 export class YoutubeParser extends Parser<I.YoutubeRawMessage> {
 	type = 'youtube';
@@ -32,10 +31,6 @@ export class YoutubeParser extends Parser<I.YoutubeRawMessage> {
         return res;
 	}
 
-	public getChatMessage(): String {
-		return "msg";
-	}
-
 	public getUser(): I.User {
 		return {
 			username: this.message.authorDetails.displayName,
@@ -54,10 +49,9 @@ export class YoutubeParser extends Parser<I.YoutubeRawMessage> {
 
 		words.forEach(string => {
 			if (string.match(emojiRegex())) {
-				console.log(string);
 				parts.push({ 
 					type: 'emoticon',
-					text: gemoji.unicode[string],
+					text: "Native Emoji",
 					identifier: {
 						type: 'direct',
 						url: `https://gaming.youtube.com/s/gaming/emoji/6281e215/emoji_u${string.charCodeAt(0).toString(16)}.svg`,
