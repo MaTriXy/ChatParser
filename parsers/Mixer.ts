@@ -1,8 +1,8 @@
 import * as I from '../interfaces';
 import { Parser } from './Parser';
 
-export class BeamParser extends Parser<I.BeamRawMessage> {
-	type = 'beam';
+export class MixerParser extends Parser<I.MixerRawMessage> {
+	type = 'mixer';
 	
 	public getRoles(): String[] {
 		return this.message.user_roles;
@@ -40,7 +40,7 @@ export class BeamParser extends Parser<I.BeamRawMessage> {
 					text: piece.text,
 					identifier: {
 						type: 'sprite',
-						url: (piece.source !== 'external') ? `https://beam.pro/_latest/emoticons/${piece.pack}.png` : piece.pack,
+						url: (piece.source !== 'external') ? `https://mixer.com/_latest/emoticons/${piece.pack}.png` : piece.pack,
 						coords: piece.coords
 					}
 				});
@@ -63,7 +63,7 @@ export class BeamParser extends Parser<I.BeamRawMessage> {
 		return parts;
 	}
 
-	public static parse(message: I.BeamRawMessage) {
-		return new BeamParser(message).get();
+	public static parse(message: I.MixerRawMessage) {
+		return new MixerParser(message).get();
 	}
 }

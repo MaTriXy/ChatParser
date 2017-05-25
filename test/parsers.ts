@@ -11,10 +11,10 @@ describe("Parses Chat", () => {
 		parser = new Parser();
 	});
 
-	it("Should parse Beam", () => {
-		chai.expect(parser.parseMessage(Platforms.Beam, Example.beamJSON)).to.have.property('user');
-		chai.expect(parser.parseMessage(Platforms.Beam, Example.beamJSON)).to.have.property('raw');
-		chai.expect(parser.parseMessage(Platforms.Beam, Example.beamJSON)).to.have.property('message');
+	it("Should parse Mixer", () => {
+		chai.expect(parser.parseMessage(Platforms.Mixer, Example.mixerJSON)).to.have.property('user');
+		chai.expect(parser.parseMessage(Platforms.Mixer, Example.mixerJSON)).to.have.property('raw');
+		chai.expect(parser.parseMessage(Platforms.Mixer, Example.mixerJSON)).to.have.property('message');
 	});
 
 	it("Should parse Twitch", () => {
@@ -23,10 +23,10 @@ describe("Parses Chat", () => {
 		chai.expect(parser.parseMessage(Platforms.Twitch, Example.twitchJSON.string)).to.have.property('message');
 	});
 
-	it("Should parse Hitbox", () => {
-		chai.expect(parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON)).to.have.property('user');
-		chai.expect(parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON)).to.have.property('raw');
-		chai.expect(parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON)).to.have.property('message');
+	it("Should parse Smashcast", () => {
+		chai.expect(parser.parseMessage(Platforms.Smashcast, Example.smashcastJSON)).to.have.property('user');
+		chai.expect(parser.parseMessage(Platforms.Smashcast, Example.smashcastJSON)).to.have.property('raw');
+		chai.expect(parser.parseMessage(Platforms.Smashcast, Example.smashcastJSON)).to.have.property('message');
 	});
 
 	it("Should parse Youtube", () => {
@@ -36,7 +36,7 @@ describe("Parses Chat", () => {
 	});
 });
 
-import './parsers/Beam';
+import './parsers/Mixer';
 import './parsers/Twitch';
-import './parsers/Hitbox';
+import './parsers/Smashcast';
 import './parsers/Youtube';

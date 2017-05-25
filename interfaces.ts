@@ -1,4 +1,4 @@
-export interface BeamRawMessage {
+export interface MixerRawMessage {
 	channel: String,
 	id: String,
 	user_name: String,
@@ -12,7 +12,7 @@ export interface TwitchRawMessage {
 	raw: String,
 }
 
-export interface HitboxRawMessage {
+export interface SmashcastRawMessage {
 	channel: String,
 	name: String,
 	nameColor: String,

@@ -1,4 +1,4 @@
-export const hitboxEmotesJSON = [
+export const smashcastEmotesJSON = [
     {
         "icon_id": "1",
         "icon_name": "smile",

@@ -1,4 +1,4 @@
-export const hitboxJSON = {
+export const smashcastJSON = {
     "channel": "streamjar",
     "name": "StreamJar",
     "nameColor": "0CBC7C",

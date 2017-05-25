@@ -1,11 +1,11 @@
 import * as I from '../interfaces';
 import { Parser } from './Parser';
 
-export class HitboxParser extends Parser<I.HitboxRawMessage> {
-	type = 'hitbox';
+export class SmashcastParser extends Parser<I.SmashcastRawMessage> {
+	type = 'smashcast';
 
 	private emoteMapping: String[] = [];
-	constructor(message: I.HitboxRawMessage, emotes: any) {
+	constructor(message: I.SmashcastRawMessage, emotes: any) {
 		super(message);
 
 		emotes.forEach(emote => {
@@ -52,7 +52,7 @@ export class HitboxParser extends Parser<I.HitboxRawMessage> {
 		const parts = [];
 
 		/**
-		 * Dear Hitbox,
+		 * Dear Smashcast,
 		 * Why the hell are you sending HTML to handle links/inline images?!
 		 *
 		 * Regards,
@@ -68,7 +68,7 @@ export class HitboxParser extends Parser<I.HitboxRawMessage> {
 					text: string,
 					identifier: {
 						type: 'direct',
-						url: `https://edge.sf.hitbox.tv${this.emoteMapping[string]}`,
+						url: `https://edge.sf.smashcast.tv${this.emoteMapping[string]}`,
 					}
 				});
 			} else if (string.indexOf("@") == 0) {
@@ -93,7 +93,7 @@ export class HitboxParser extends Parser<I.HitboxRawMessage> {
 		return parts;
 	}
 
-	public static parse(message: I.HitboxRawMessage, emotes: any) {
-		return new HitboxParser(message, emotes).get();
+	public static parse(message: I.SmashcastRawMessage, emotes: any) {
+		return new SmashcastParser(message, emotes).get();
 	}
 }

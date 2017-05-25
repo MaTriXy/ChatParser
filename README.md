@@ -5,9 +5,9 @@
 An issue we're running to at StreamJar is everybody handles their chats completely different. Which when you want to support lots of different services in the same way, it can cause less than ideal situations.
 
 ## Quick Note.
-Hitbox has it's quirks, one being that they send no information on emotes with the chat event. Handling API requests is out of the scope of this module but you can find the emotes at `https://www.hitbox.tv/api/chat/emotes/luket.json`. Once you've got (and possibly cached) the JSON call the following to make the module aware.
+Smashcast has it's quirks, one being that they send no information on emotes with the chat event. Handling API requests is out of the scope of this module but you can find the emotes at `https://www.smashcast.tv/api/chat/emotes/luket.json`. Once you've got (and possibly cached) the JSON call the following to make the module aware.
 ```
-parser.loadHitboxEmotes(object);
+parser.loadSmashcastEmotes(object);
 ```
 
 
@@ -23,7 +23,7 @@ Getting started is simple. Require the module, create a new instance.. and parse
 import {default as Parser, Platforms } from 'chat-parser';
 
 const parser = new Parser();
-parser.parse(Platforms.Beam, {
+parser.parse(Platforms.Mixer, {
 	..
 });
 ```
@@ -31,9 +31,9 @@ parser.parse(Platforms.Beam, {
 
 ## Expected object
 This module expects slightly different things depending on the platform (look in /examples for example objects).
-- For Beam, pass the data portion of the ChatMessage packet.
+- For Mixer, pass the data portion of the ChatMessage packet.
 - For Twitch, pass the PRIVMSG as a string.
-- For Hitbox, pass the "params" part of the chat packet.
+- For Smashcast, pass the "params" part of the chat packet.
 
 
 ## Parsed Message
@@ -85,7 +85,7 @@ Currently there are 4 types of message. Text, link, mention and emoticon.
 ```
 
 #### Emoticon
-Emoticons are handled differently between Twitch/Hitbox and Beam, we call this 'sprite' and 'direct'.
+Emoticons are handled differently between Twitch/Smashcast and Mixer, we call this 'sprite' and 'direct'.
 
 ##### Sprite:
 ```
@@ -94,7 +94,7 @@ Emoticons are handled differently between Twitch/Hitbox and Beam, we call this '
 	"text":":D",
 	"identifier":{
 	"type":"sprite",
-	"pack":"https://beam.pro/_latest/emoticons/default.png",
+	"pack":"https://mixer.com/_latest/emoticons/default.png",
 	"coords":{
 		"x":72,
 		"y":0,
@@ -110,6 +110,6 @@ Emoticons are handled differently between Twitch/Hitbox and Beam, we call this '
 	"text":":D",
 	"identifier":{
 	"type":"direct",
-	"url":"https://hitbox.tv/static/img/chat/default/lol1.png"
+	"url":"https://smashcast.tv/static/img/chat/default/lol1.png"
 }
 ```

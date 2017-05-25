@@ -4,14 +4,14 @@ import * as chai from 'chai';
 import { } from '@types/chai';
 import { } from '@types/mocha';
 
-describe("Parses Hitbox", () => {
+describe("Parses Smashcast", () => {
 	let parser;
 	let parsed;
 
 	describe('works without emotes', () => {
 		beforeEach(() => {
 			parser = new Parser();
-			parsed = parser.parseMessage(Platforms.Hitbox, Example.hitboxJSON);
+			parsed = parser.parseMessage(Platforms.Smashcast, Example.smashcastJSON);
 		});
 
 
@@ -76,8 +76,8 @@ describe("Parses Hitbox", () => {
 		
 		beforeEach(() => {
 			parserEm = new Parser();
-			parserEm.loadHitboxEmotes(Example.hitboxEmotesJSON);
-			parsed = parserEm.parseMessage(Platforms.Hitbox, Example.hitboxJSON);
+			parserEm.loadSmashcastEmotes(Example.smashcastEmotesJSON);
+			parsed = parserEm.parseMessage(Platforms.Smashcast, Example.smashcastJSON);
 		});
 
 		it('sees the emoticon', () => {

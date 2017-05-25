@@ -1,4 +1,4 @@
-export const beamJSON = {
+export const mixerJSON = {
     "channel": 332,
     "id": "4bf54c10-c898-11e6-8ecb-fb7283040cc2",
     "user_name": "StreamJar",

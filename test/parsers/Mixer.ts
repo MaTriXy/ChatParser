@@ -4,13 +4,13 @@ import * as chai from 'chai';
 import { } from '@types/chai';
 import { } from '@types/mocha';
 
-describe("Parses Beam", () => {
+describe("Parses Mixer", () => {
     let parser;
 	let parsed;
     
     beforeEach(() => {
         parser = new Parser();
-		parsed = parser.parseMessage(Platforms.Beam, Example.beamJSON);
+		parsed = parser.parseMessage(Platforms.Mixer, Example.mixerJSON);
     });
 
 

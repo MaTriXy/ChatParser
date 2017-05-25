@@ -1,24 +1,24 @@
-import { BeamParser, TwitchParser, HitboxParser, YoutubeParser } from './parsers';
+import { MixerParser, TwitchParser, SmashcastParser, YoutubeParser } from './parsers';
 import * as I from './interfaces';
 
-export enum Platforms { Beam, Twitch, Hitbox, Youtube }
+export enum Platforms { Mixer, Twitch, Smashcast, Youtube }
 
 export default class Parser {
-	private hitboxEmotes: Object = [];
+	private smashcastEmotes: Object = [];
 
-	loadHitboxEmotes(load: any) {
-		this.hitboxEmotes = load;    
+	loadSmashcastEmotes(load: any) {
+		this.smashcastEmotes = load;    
 	}
 
 	parseMessage(type: Platforms, message: any): I.Message {
-		if (type == Platforms.Beam) {
-			return BeamParser.parse(message);
+		if (type == Platforms.Mixer) {
+			return MixerParser.parse(message);
 		} else if (type === Platforms.Youtube) {
 			return YoutubeParser.parse(message);
 		} else if (type == Platforms.Twitch) {
 			return TwitchParser.parse(<I.TwitchRawMessage>{ raw: message });
-		} else if (type == Platforms.Hitbox) {
-			return HitboxParser.parse(message, this.hitboxEmotes);
+		} else if (type == Platforms.Smashcast) {
+			return SmashcastParser.parse(message, this.smashcastEmotes);
 		}
 	}
 }
