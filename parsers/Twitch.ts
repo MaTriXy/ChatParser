@@ -52,20 +52,20 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 			res.push('owner');
 		}
 
-		if (this.getMeta('turbo') === '0') {
-			res.push('premium');
-		}
-
-		if (this.getMeta('subscriber') === '1') {
-			res.push('subscriber');
+		if (['global_mod', 'admin', 'staff'].indexOf(this.getMeta('user-type')) !== -1) {
+			res.push('staff');
 		}
 
 		if (this.getMeta('mod') === '1') {
 			res.push('moderator');
 		}
 
-		if (['global_mod', 'admin', 'staff'].indexOf(this.getMeta('user-type')) !== -1) {
-			res.push('staff');
+		if (this.getMeta('subscriber') === '1') {
+			res.push('subscriber');
+		}
+
+		if (this.getMeta('turbo') === '0') {
+			res.push('premium');
 		}
 
 		return res;

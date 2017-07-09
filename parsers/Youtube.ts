@@ -16,12 +16,12 @@ export class YoutubeParser extends Parser<I.YoutubeRawMessage> {
 	public getRoles(): I.Role[] {
 		const res: I.Role[] = [];
 
-		if (this.message.authorDetails.isChatModerator) {
-			res.push('moderator');
-		}
-
 		if (this.message.authorDetails.isChatOwner) {
 			res.push('owner');
+		}
+
+		if (this.message.authorDetails.isChatModerator) {
+			res.push('moderator');
 		}
 
 		if (this.message.authorDetails.isChatSponsor) {

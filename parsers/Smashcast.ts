@@ -25,16 +25,16 @@ export class SmashcastParser extends Parser<I.SmashcastRawMessage> {
 			res.push('owner');
 		}
 
-		if (this.message.isSubscriber) {
-			res.push('subscriber');
+		if (this.message.isStaff) {
+			res.push('staff');
 		}
 
 		if (this.message.role === 'user') {
 			res.push('moderator');
 		}
 
-		if (this.message.isStaff) {
-			res.push('staff');
+		if (this.message.isSubscriber) {
+			res.push('subscriber');
 		}
 
 		return res;
