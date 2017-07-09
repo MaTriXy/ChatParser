@@ -19,7 +19,7 @@ export class SmashcastParser extends Parser<I.SmashcastRawMessage> {
 	}
 
 	public getRoles(): string[] {
-		const res = [];
+		const res: string[] = [];
 
 		if (this.message.isOwner) {
 			res.push('Streamer');

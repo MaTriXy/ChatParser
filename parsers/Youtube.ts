@@ -14,7 +14,7 @@ export class YoutubeParser extends Parser<I.YoutubeRawMessage> {
 	}
 
 	public getRoles(): string[] {
-		const res = [];
+		const res: string[] = [];
 
 		if (this.message.authorDetails.isChatModerator) {
 			res.push('Mod');

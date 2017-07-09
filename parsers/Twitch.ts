@@ -3,8 +3,8 @@ import { Parser } from './Parser';
 
 export class TwitchParser extends Parser<I.TwitchRawMessage> {
 	public type = 'twitch';
-	private meta: any = [];
-	private emoteMapping: any = [];
+	private meta: { [key: string]: string } = {};
+	private emoteMapping: { [key: string]: number } = {};
 
 	public static parse(message: I.TwitchRawMessage) {
 		return new TwitchParser(message).get();
@@ -46,7 +46,7 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 	}
 
 	public getRoles(): string[] {
-		const res = [];
+		const res: string[] = [];
 
 		if (this.checkBadges('broadcaster')) {
 			res.push('Streamer');
