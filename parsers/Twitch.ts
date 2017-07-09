@@ -2,36 +2,41 @@ import * as I from '../interfaces';
 import { Parser } from './Parser';
 
 export class TwitchParser extends Parser<I.TwitchRawMessage> {
-	type = 'twitch';
+	public type = 'twitch';
 	private meta: any = [];
 	private emoteMapping: any = [];
+
+	public static parse(message: I.TwitchRawMessage) {
+		return new TwitchParser(message).get();
+	}
 
 	constructor(message: I.TwitchRawMessage) {
 		super(message);
 
 		this.meta = this.parseMeta();
-		if (this.getMeta('emotes')) this.mapEmotes(this.getMeta('emotes').split("/"));
-
+		if (this.getMeta('emotes')) {
+			this.mapEmotes(this.getMeta('emotes').split('/'));
+		}
 	}
 
-	private parseMeta(): any {
-		const arr = [];
-		const parts = this.message.raw.substring(1).split(" :")[0].split(";");
-		
+	private parseMeta(): { [key: string]: string } {
+		const arr: { [key: string]: string } = {};
+		const parts = this.message.raw.substring(1).split(' :')[0].split(';');
+
 		parts.forEach((data, i) => {
-			var ex = data.split('=');
+			const ex = data.split('=');
 			arr[ex[0]] = ex[1];
 		});
-		
+
 		return arr;
 	}
 
-	private checkBadges(role: String): Boolean {
-		const badges = this.getMeta('badges').split(",");
+	private checkBadges(role: string): Boolean {
+		const badges = this.getMeta('badges').split(',');
 		return !!String(badges).search(`/^${role}/1$/`);
 	}
 
-	private mapEmotes(emotes: any) {
+	private mapEmotes(emotes: any[]) {
 		emotes.forEach(emote => {
 			const mapping = emote.split(':');
 			const range = mapping[1].split('-');
@@ -40,15 +45,15 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 		});
 	}
 
-	public getRoles(): String[] {
+	public getRoles(): string[] {
 		const res = [];
-		
+
 		if (this.checkBadges('broadcaster')) {
 			res.push('Streamer');
 		}
 
 		if (this.getMeta('turbo') === '0') {
-			res.push("Turbo");
+			res.push('Turbo');
 		}
 
 		if (this.getMeta('subscriber') === '1') {
@@ -69,9 +74,9 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 	public getMeta(key: string): string {
 		return this.meta[key];
 	}
-	
-	public getChatMessage(): String {
-		return this.message.raw.split(" ").slice(4).join(" ").substring(1).replace(/\r?\n|\r/g, '');
+
+	public getChatMessage(): string {
+		return this.message.raw.split(' ').slice(4).join(' ').substring(1).replace(/\r?\n|\r/g, '');
 	}
 
 	public getUser(): I.User {
@@ -81,14 +86,14 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 			roles: this.getRoles()
 		};
 	}
-	
-	public getMessage(): I.Message {
+
+	public getMessage(): I.MessagePart[] {
 		return this.buildParts();
 	}
 
 	public buildParts(): I.MessagePart[] {
-		const parts = [];
-		
+		const parts: I.MessagePart[] = [];
+
 		this.getChatMessage().split(' ').forEach(string => {
 			if (typeof this.emoteMapping[string] === 'number') {
 				parts.push({
@@ -99,29 +104,25 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 						url: `http://static-cdn.jtvnw.net/emoticons/v1/${this.emoteMapping[string]}/1.0`,
 					}
 				});
-			} else if (string.indexOf("@") == 0) {
+			} else if (string.indexOf('@') === 0) {
 				parts.push({
 					type: 'mention',
 					text: string,
-					identifier: string.split('@')[1]
+					identifier: string.split('@')[1],
 				});
 			} else if (string.match(/[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi)) {
 				parts.push({
 					type: 'url',
 					text: string,
-					identifier: string
+					identifier: string,
 				});
 			} else {
 				parts.push({
 					type: 'text',
-					text: string
+					text: string,
 				});
 			}
 		});
 		return parts;
-	}
-
-	public static parse(message: I.TwitchRawMessage) {
-		return new TwitchParser(message).get();
 	}
 }

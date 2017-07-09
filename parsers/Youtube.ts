@@ -1,63 +1,67 @@
 import * as I from '../interfaces';
 import { Parser } from './Parser';
-import * as emojiRegex from 'emoji-regex';
+import * as emojiRegex from 'emoji-regex'; // tslint:disable-line noImplicitAny
 
 export class YoutubeParser extends Parser<I.YoutubeRawMessage> {
-	type = 'youtube';
+	public type = 'youtube';
+
+	public static parse(message: I.YoutubeRawMessage) {
+		return new YoutubeParser(message).get();
+	}
 
 	constructor(message: I.YoutubeRawMessage) {
 		super(message);
 	}
 
-	public getRoles(): String[] {
+	public getRoles(): string[] {
 		const res = [];
 
 		if (this.message.authorDetails.isChatModerator) {
-			res.push("Mod");			
+			res.push('Mod');
 		}
 
 		if (this.message.authorDetails.isChatOwner) {
-			res.push("Streamer");			
+			res.push('Streamer');
 		}
 
 		if (this.message.authorDetails.isChatSponsor) {
-			res.push("Subscriber");			
+			res.push('Subscriber');
 		}
 
 		if (this.message.authorDetails.isChatModerator) {
-			res.push("Moderator");			
+			res.push('Moderator');
 		}
-		
-        return res;
+
+		return res;
 	}
 
 	public getUser(): I.User {
 		return {
 			username: this.message.authorDetails.displayName,
 			userId: this.message.authorDetails.channelId,
-			roles: this.getRoles()
+			roles: this.getRoles(),
 		};
 	}
-	
-	public getMessage(): I.Message {
+
+	public getMessage(): I.MessagePart[] {
 		return this.buildParts();
 	}
 
 	public buildParts(): I.MessagePart[] {
-		const parts = [];
-		const words = this.message.snippet.displayMessage.split(" ");
+		const parts: I.MessagePart[] = [];
+		const words = this.message.snippet.displayMessage.split(' ');
 
 		words.forEach(string => {
 			if (string.match(emojiRegex())) {
-				parts.push({ 
+				parts.push({
 					type: 'emoticon',
-					text: "Native Emoji",
+					text: 'Native Emoji',
 					identifier: {
 						type: 'direct',
 						url: `https://gaming.youtube.com/s/gaming/emoji/6281e215/emoji_u${string.charCodeAt(0).toString(16)}.svg`,
 					}
 				})
-			} else if (string.indexOf("@") == 0) {
+			} else if (string.indexOf('@') === 0) {
 				parts.push({
 					type: 'mention',
 					text: string,
@@ -77,10 +81,6 @@ export class YoutubeParser extends Parser<I.YoutubeRawMessage> {
 			}
 		});
 
-        return parts;
-	}
-
-	public static parse(message: I.YoutubeRawMessage) {
-		return new YoutubeParser(message).get();
+		return parts;
 	}
 }

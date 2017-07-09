@@ -1,8 +1,8 @@
 import * as I from '../interfaces';
 
 export abstract class Parser<T> {
+	public abstract type: string;
 	protected message: T;
-	abstract type;
 
 	constructor(message: T) {
 		this.message = message;
@@ -10,14 +10,14 @@ export abstract class Parser<T> {
 
 	public abstract getRoles(): any;
 	public abstract getUser(): I.User;
-	public abstract getMessage(): I.Message;
+	public abstract getMessage(): I.MessagePart[];
 
-	get() {
+	get(): I.Message {
 		return {
 			platform: this.type,
 			user: this.getUser(),
 			message: this.getMessage(),
-			raw: this
+			raw: this,
 		};
 	}
 }

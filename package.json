@@ -19,12 +19,13 @@
     "coveralls": "^2.11.15",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
-    "nyc": "^10.0.0"
+    "nyc": "^10.0.0",
+    "tslint": "^5.5.0"
   },
   "scripts": {
     "build": "tsc index.ts --outDir compiled/",
     "failinstall": "tsc index.ts --outDir compiled/",
-    "test": "mocha --require ts-node/register --watch-extensions tsx,ts test/*.ts",
+    "test": "tslint *.ts parsers/*.ts test/**/*.ts && mocha --require ts-node/register --watch-extensions tsx,ts test/*.ts",
     "cover": "nyc --require ts-node/register --reporter=lcov --reporter=text-lcov npm test | coveralls"
   },
   "repository": {

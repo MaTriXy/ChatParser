@@ -1,13 +1,13 @@
 import * as Example from '../../examples';
-import { default as Parser, Platforms } from '../../';
+import { default as Parser, Platforms, Message, EmoticonIdentifier } from '../../';
 import * as chai from 'chai';
 import { } from '@types/chai';
 import { } from '@types/mocha';
 
-describe("Parses Twitch", () => {
+describe('Parses Twitch', () => {
 	let parser;
-	let parsed;
-		
+	let parsed: Message;
+
 	beforeEach(() => {
 		parser = new Parser();
 		parsed = parser.parseMessage(Platforms.Twitch, Example.twitchJSON.string);
@@ -15,7 +15,7 @@ describe("Parses Twitch", () => {
 
 
 	describe('has basic info', () => {
-		it("Should parse without error", () => {
+		it('Should parse without error', () => {
 			chai.expect(parsed).to.have.property('user');
 			chai.expect(parsed).to.have.property('raw');
 			chai.expect(parsed).to.have.property('message');
@@ -29,7 +29,7 @@ describe("Parses Twitch", () => {
 			chai.expect(parsed.user.roles).to.contain('Staff');
 		});
 
-		it("Should have the correct user object", () => {
+		it('Should have the correct user object', () => {
 			chai.expect(parsed.user.username).to.equal('StreamJar');
 			chai.expect(parsed.user.userId).to.equal(1);
 		});
@@ -46,7 +46,7 @@ describe("Parses Twitch", () => {
 
 		it('has an emote which is a sprite', () => {
 			chai.expect(parsed.message[1].type).to.equal('emoticon');
-			chai.expect(parsed.message[1].identifier.type).to.equal('direct');
+			chai.expect((<EmoticonIdentifier> parsed.message[1].identifier).type).to.equal('direct');
 		})
 
 		it('has an url to google', () => {

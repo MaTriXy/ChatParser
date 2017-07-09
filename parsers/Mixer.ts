@@ -2,12 +2,16 @@ import * as I from '../interfaces';
 import { Parser } from './Parser';
 
 export class MixerParser extends Parser<I.MixerRawMessage> {
-	type = 'mixer';
-	
-	public getRoles(): String[] {
+	public type = 'mixer';
+
+	public static parse(message: I.MixerRawMessage): I.Message {
+		return new MixerParser(message).get();
+	}
+
+	public getRoles(): string[] {
 		return this.message.user_roles;
 	}
-	
+
 	public getUser(): I.User {
 		return {
 			userId: this.message.user_id,
@@ -15,20 +19,24 @@ export class MixerParser extends Parser<I.MixerRawMessage> {
 			roles: this.getRoles()
 		};
 	}
-	
-	public getMessage(): I.Message {
+
+	public getMessage(): I.MessagePart[] {
 		return this.buildParts(this.message.message.message)
 	}
 
-	public buildParts(message: any): I.MessagePart[] {
-		const parts = [];
-		message.forEach((piece) => {
+	public buildParts(message: any[]): I.MessagePart[] {
+		const parts: I.MessagePart[] = [];
+		message.forEach(piece => {
 			if (piece.type === 'text') {
-				if (piece.text === '' || piece.text === ' ') return;
+				if (piece.text === '' || piece.text === ' ') {
+					return;
+				}
 
-				piece.text.split(' ').forEach(bit => {
-					if (bit === '' || bit === ' ') return;
-	
+				piece.text.split(' ').forEach((bit: string) => {
+					if (bit === '' || bit === ' ') {
+						return;
+					}
+
 					parts.push({
 						type: 'text',
 						text: bit
@@ -50,8 +58,7 @@ export class MixerParser extends Parser<I.MixerRawMessage> {
 					text: piece.text,
 					identifier: piece.username
 				});
-			}
-			else if (piece.type === 'link') {
+			} else if (piece.type === 'link') {
 				parts.push({
 					type: 'url',
 					text: piece.text,
@@ -61,9 +68,5 @@ export class MixerParser extends Parser<I.MixerRawMessage> {
 		});
 
 		return parts;
-	}
-
-	public static parse(message: I.MixerRawMessage) {
-		return new MixerParser(message).get();
 	}
 }

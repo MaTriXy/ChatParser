@@ -1,12 +1,12 @@
 import * as Example from '../../examples';
-import { default as Parser, Platforms } from '../../';
+import { default as Parser, Platforms, Message, EmoticonIdentifier } from '../../';
 import * as chai from 'chai';
 import { } from '@types/chai';
 import { } from '@types/mocha';
 
-describe("Parses Smashcast", () => {
+describe('Parses Smashcast', () => {
 	let parser;
-	let parsed;
+	let parsed: Message;
 
 	describe('works without emotes', () => {
 		beforeEach(() => {
@@ -16,7 +16,7 @@ describe("Parses Smashcast", () => {
 
 
 		describe('has basic info', () => {
-			it("Should parse without error", () => {
+			it('Should parse without error', () => {
 				chai.expect(parsed).to.have.property('user');
 				chai.expect(parsed).to.have.property('raw');
 				chai.expect(parsed).to.have.property('message');
@@ -39,7 +39,7 @@ describe("Parses Smashcast", () => {
 				chai.expect(parsed.user.roles).to.contain('Subscriber');
 			});
 
-			it("Should have the correct user object", () => {
+			it('Should have the correct user object', () => {
 				chai.expect(parsed.user.username).to.equal('StreamJar');
 				chai.expect(parsed.user.userId).to.equal(null);
 			});
@@ -73,7 +73,7 @@ describe("Parses Smashcast", () => {
 
 	describe('works with emotes', () => {
 		let parserEm;
-		
+
 		beforeEach(() => {
 			parserEm = new Parser();
 			parserEm.loadSmashcastEmotes(Example.smashcastEmotesJSON);
@@ -85,7 +85,7 @@ describe("Parses Smashcast", () => {
 		})
 
 		it('sees the emoticon as direct', () => {
-			chai.expect(parsed.message[1].identifier.type).to.equal('direct');
+			chai.expect((<EmoticonIdentifier> parsed.message[1].identifier).type).to.equal('direct');
 		})
 
 		it('doesn\'t turn javascript methods into emotes', () => {

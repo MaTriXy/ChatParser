@@ -1,13 +1,13 @@
 import * as Example from '../../examples';
-import { default as Parser, Platforms } from '../../';
+import { default as Parser, Platforms, Message, EmoticonIdentifier } from '../../';
 import * as chai from 'chai';
 import { } from '@types/chai';
 import { } from '@types/mocha';
 
-describe("Parses Youtube", () => {
+describe('Parses Youtube', () => {
 	let parser;
-	let parsed;
-		
+	let parsed: Message;
+
 	beforeEach(() => {
 		parser = new Parser();
 		parsed = parser.parseMessage(Platforms.Youtube, Example.youtubeJSON);
@@ -15,7 +15,7 @@ describe("Parses Youtube", () => {
 
 
 	describe('has basic info', () => {
-		it("Should parse without error", () => {
+		it('Should parse without error', () => {
 			chai.expect(parsed).to.have.property('user');
 			chai.expect(parsed).to.have.property('raw');
 			chai.expect(parsed).to.have.property('message');
@@ -37,9 +37,9 @@ describe("Parses Youtube", () => {
 			chai.expect(parsed.user.roles).to.contain('Streamer');
 		});
 
-		it("Should have the correct user object", () => {
+		it('Should have the correct user object', () => {
 			chai.expect(parsed.user.username).to.equal('StreamJar');
-			chai.expect(parsed.user.userId).to.equal("UCHcE6_xxE2-9NMY9hDX_cfw");
+			chai.expect(parsed.user.userId).to.equal('UCHcE6_xxE2-9NMY9hDX_cfw');
 		});
 	})
 
@@ -54,7 +54,7 @@ describe("Parses Youtube", () => {
 
 		it('has an emote which is a sprite', () => {
 			chai.expect(parsed.message[1].type).to.equal('emoticon');
-			chai.expect(parsed.message[1].identifier.type).to.equal('direct');
+			chai.expect((<EmoticonIdentifier> parsed.message[1].identifier).type).to.equal('direct');
 		})
 
 		it('has an url to google', () => {

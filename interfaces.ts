@@ -1,32 +1,32 @@
 export interface MixerRawMessage {
-	channel: String,
-	id: String,
-	user_name: String,
-	user_id: Number,
-	user_roles: String[],
-	user_level: Number,
-	message: { message: any, meta: any },
+	channel: string;
+	id: string;
+	user_name: string;
+	user_id: number;
+	user_roles: string[];
+	user_level: number;
+	message: { message: any; meta: any };
 }
 
 export interface TwitchRawMessage {
-	raw: String,
+	raw: string;
 }
 
 export interface SmashcastRawMessage {
-	channel: String,
-	name: String,
-	nameColor: String,
-	text: String,
-	time: Number,
-	id: String,
-	role: String,
-	isFollower: Boolean,
-	isSubscriber: Boolean,
-	isOwner: Boolean,
-	isStaff: Boolean,
-	isCommunity: Boolean,
-	media: Boolean,
-	image: String,
+	channel: string;
+	name: string;
+	nameColor: string;
+	text: string;
+	time: number;
+	id: string;
+	role: string;
+	isFollower: boolean;
+	isSubscriber: boolean;
+	isOwner: boolean;
+	isStaff: boolean;
+	isCommunity: boolean;
+	media: boolean;
+	image: string;
 }
 
 export interface YoutubeRawMessage {
@@ -53,19 +53,35 @@ export interface YoutubeRawMessage {
 		isChatOwner: boolean;
 		isChatSponsor: boolean;
 		isChatModerator: boolean;
-	}
+	};
 }
 
 export interface Message {
+	platform: string;
+	user: User;
+	message: MessagePart[];
+	raw: any;
 }
 
 export interface MessagePart {
-	type: String,
-	text: String,
+	type: 'text' | 'mention' | 'url' | 'emoticon';
+	text: string;
+	identifier?: string | EmoticonIdentifier;
+}
+
+export interface EmoticonIdentifier {
+	type: 'sprite' | 'direct';
+	url: string;
+	coords?: {
+		x: number;
+		y: number;
+		width: number;
+		height: number;
+	};
 }
 
 export interface User {
-	userId: any,
-	username: String,
-	roles: String[],
+	userId: string | number | null;
+	username: string;
+	roles: string[];
 }
