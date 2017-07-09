@@ -83,5 +83,7 @@ export interface EmoticonIdentifier {
 export interface User {
 	userId: string | number | null;
 	username: string;
-	roles: string[];
+	roles: Role[];
 }
+
+export type Role = 'owner' | 'staff' | 'moderator' | 'subscriber' | 'premium';

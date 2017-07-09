@@ -45,27 +45,27 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 		});
 	}
 
-	public getRoles(): string[] {
-		const res: string[] = [];
+	public getRoles(): I.Role[] {
+		const res: I.Role[] = [];
 
 		if (this.checkBadges('broadcaster')) {
-			res.push('Streamer');
+			res.push('owner');
 		}
 
 		if (this.getMeta('turbo') === '0') {
-			res.push('Turbo');
+			res.push('premium');
 		}
 
 		if (this.getMeta('subscriber') === '1') {
-			res.push('Subscriber');
+			res.push('subscriber');
 		}
 
 		if (this.getMeta('mod') === '1') {
-			res.push('Mod');
+			res.push('moderator');
 		}
 
 		if (['global_mod', 'admin', 'staff'].indexOf(this.getMeta('user-type')) !== -1) {
-			res.push('Staff');
+			res.push('staff');
 		}
 
 		return res;

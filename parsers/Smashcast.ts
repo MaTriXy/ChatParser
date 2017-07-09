@@ -18,23 +18,23 @@ export class SmashcastParser extends Parser<I.SmashcastRawMessage> {
 		});
 	}
 
-	public getRoles(): string[] {
-		const res: string[] = [];
+	public getRoles(): I.Role[] {
+		const res: I.Role[] = [];
 
 		if (this.message.isOwner) {
-			res.push('Streamer');
+			res.push('owner');
 		}
 
 		if (this.message.isSubscriber) {
-			res.push('Subscriber');
+			res.push('subscriber');
 		}
 
 		if (this.message.role === 'user') {
-			res.push('Mod');
+			res.push('moderator');
 		}
 
 		if (this.message.isStaff) {
-			res.push('Staff');
+			res.push('staff');
 		}
 
 		return res;

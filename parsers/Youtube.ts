@@ -13,23 +13,19 @@ export class YoutubeParser extends Parser<I.YoutubeRawMessage> {
 		super(message);
 	}
 
-	public getRoles(): string[] {
-		const res: string[] = [];
+	public getRoles(): I.Role[] {
+		const res: I.Role[] = [];
 
 		if (this.message.authorDetails.isChatModerator) {
-			res.push('Mod');
+			res.push('moderator');
 		}
 
 		if (this.message.authorDetails.isChatOwner) {
-			res.push('Streamer');
+			res.push('owner');
 		}
 
 		if (this.message.authorDetails.isChatSponsor) {
-			res.push('Subscriber');
-		}
-
-		if (this.message.authorDetails.isChatModerator) {
-			res.push('Moderator');
+			res.push('subscriber');
 		}
 
 		return res;

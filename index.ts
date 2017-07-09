@@ -31,4 +31,4 @@ export class InvalidPlatformError extends Error {
 	}
 }
 
-export { EmoticonIdentifier, Message, MessagePart, User } from './interfaces';
+export { EmoticonIdentifier, Message, MessagePart, Role, User } from './interfaces';

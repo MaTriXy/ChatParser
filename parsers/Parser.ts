@@ -8,11 +8,11 @@ export abstract class Parser<T> {
 		this.message = message;
 	}
 
-	public abstract getRoles(): any;
+	public abstract getRoles(): I.Role[];
 	public abstract getUser(): I.User;
 	public abstract getMessage(): I.MessagePart[];
 
-	get(): I.Message {
+	public get(): I.Message {
 		return {
 			platform: this.type,
 			user: this.getUser(),

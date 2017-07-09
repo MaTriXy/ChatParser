@@ -8,8 +8,24 @@ export class MixerParser extends Parser<I.MixerRawMessage> {
 		return new MixerParser(message).get();
 	}
 
-	public getRoles(): string[] {
-		return this.message.user_roles;
+	public getRoles(): I.Role[] {
+		const map: { [key: string]: I.Role } = {
+			pro: 'premium',
+			subscriber: 'subscriber',
+			mod: 'moderator',
+			globalmod: 'staff',
+			staff: 'staff',
+			founder: 'staff',
+			owner: 'owner',
+		};
+
+		const result: I.Role[] = [];
+		this.message.user_roles.forEach(role => {
+			if (map.hasOwnProperty(role)) {
+				result.push(map[role]);
+			}
+		});
+		return result;
 	}
 
 	public getUser(): I.User {
