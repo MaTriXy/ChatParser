@@ -21,8 +21,9 @@ export class MixerParser extends Parser<I.MixerRawMessage> {
 
 		const result: I.Role[] = [];
 		this.message.user_roles.forEach(role => {
-			if (map.hasOwnProperty(role)) {
-				result.push(map[role]);
+			const key = role.toLowerCase();
+			if (map.hasOwnProperty(key)) {
+				result.push(map[key]);
 			}
 		});
 		return result;
@@ -32,7 +33,7 @@ export class MixerParser extends Parser<I.MixerRawMessage> {
 		return {
 			userId: this.message.user_id,
 			username: this.message.user_name,
-			roles: this.getRoles()
+			roles: this.getRoles(),
 		};
 	}
 
