@@ -4,7 +4,13 @@ export const mixerJSON = {
     "user_name": "StreamJar",
     "user_id": 1,
     "user_roles": [
-        "Owner"
+        "Owner",
+        "Mod",
+        "Staff",
+        "ChannelEditor",
+        "Subscriber",
+        "User",
+        "notarole"
     ],
     "user_level": 86,
     "message": {

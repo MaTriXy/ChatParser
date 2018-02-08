@@ -1,27 +1,54 @@
-import * as I from '../interfaces';
 import { Parser } from './Parser';
+import { IChatRole, IMessagePart, IMessageContext, MixerRawMessage, IChatMessage, ChatPlatform } from '../interfaces';
 
-export class MixerParser extends Parser<I.MixerRawMessage> {
-	type = 'mixer';
+export class MixerParser extends Parser<MixerRawMessage> {
+	type = ChatPlatform.Mixer;
 	
-	public getRoles(): String[] {
-		return this.message.user_roles;
+	public getRoles(): IChatRole[] {
+		return <IChatRole[]>this.message.user_roles.map(role => {
+			if (['Founder', 'Staff'].indexOf(role) !== -1) {
+				return IChatRole.Staff;
+			}
+
+			if (role === 'Owner') {
+				return IChatRole.Owner;
+			}
+
+			if (role === 'Mod') {
+				return IChatRole.Moderator;
+			}
+			
+			if (role === 'ChannelEditor') {
+				return IChatRole.Editor;
+			}
+
+			if (role === 'Subscriber') {
+				return IChatRole.Subscriber;
+			}
+
+			if (role === 'User') {
+				return IChatRole.User;
+			}
+
+			return false;
+		}).filter(a => a !== false);
 	}
 	
-	public getUser(): I.User {
+	public getUser(): IMessageContext {
 		return {
 			userId: this.message.user_id,
 			username: this.message.user_name,
-			roles: this.getRoles()
+			roles: this.getRoles(),
 		};
 	}
 	
-	public getMessage(): I.Message {
+	public getMessage(): IMessagePart[] {
 		return this.buildParts(this.message.message.message)
 	}
 
-	public buildParts(message: any): I.MessagePart[] {
-		const parts = [];
+	public buildParts(message: any): IMessagePart[] {
+		const parts: IMessagePart[] = [];
+
 		message.forEach((piece) => {
 			if (piece.type === 'text') {
 				if (piece.text === '' || piece.text === ' ') return;
@@ -63,7 +90,7 @@ export class MixerParser extends Parser<I.MixerRawMessage> {
 		return parts;
 	}
 
-	public static parse(message: I.MixerRawMessage) {
+	public static parse(message: MixerRawMessage): IChatMessage {
 		return new MixerParser(message).get();
 	}
 }

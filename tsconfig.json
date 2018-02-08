@@ -2,7 +2,21 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es6",
+        "types": [
+            "node"
+        ],
         "noImplicitAny": false,
-        "sourceMap": false
+        "declaration": true,
+        "declarationDir": "dist",
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "outDir": "dist"
+    },
+        "exclude": [
+            "dist",
+            "build"
+        ]
     }
-}

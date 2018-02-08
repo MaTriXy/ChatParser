@@ -1,6 +1,5 @@
 node_modules/
 coverage/
-compiled/
-compiled-t/
+dist/
 .vscode/
 .nyc_output/

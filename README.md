@@ -20,14 +20,13 @@ npm install --save chat-parser
 ## Getting Started
 Getting started is simple. Require the module, create a new instance.. and parse.
 ```
-import {default as Parser, Platforms } from 'chat-parser';
+import { Parser, ChatPlatform } from 'chat-parser';
 
 const parser = new Parser();
-parser.parse(Platforms.Mixer, {
+parser.parse(ChatPlatform.Mixer, {
 	..
 });
 ```
-
 
 ## Expected object
 This module expects slightly different things depending on the platform (look in /examples for example objects).
@@ -43,7 +42,7 @@ The parsed message contains basic user information and the message itself.
 	"user": {
 		"username": "Luke",
 		"userId": 373,
-		roles: [ 'Streamer' ],
+		roles: [ 'owner' ],
 	},
 	"message": [
 		{

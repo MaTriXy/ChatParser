@@ -1,31 +1,29 @@
 {
   "name": "chat-parser",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Parse chat from streaming platforms into a a single format.",
-  "main": "compiled/index.js",
-  "typings": "compiled/index",
+  "main": "dist/index.js",
+  "typings": "dist/index",
   "directories": {
     "example": "examples"
   },
   "dependencies": {
-    "emoji-regex": "^6.4.2",
-    "ts-node": "^1.7.2",
-    "typescript": "^2.1.4"
+    "emoji-regex": "^6.5.1",
+    "ts-node": "^4.1.0",
+    "typescript": "^2.7.1"
   },
   "devDependencies": {
-    "@types/chai": "^3.4.34",
-    "@types/mocha": "^2.2.34",
-    "chai": "^3.5.0",
-    "coveralls": "^2.11.15",
-    "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
-    "nyc": "^10.0.0"
+    "@types/chai": "^4.1.2",
+    "@types/mocha": "^2.2.48",
+    "chai": "^4.1.2",
+    "mocha": "^5.0.0",
+    "nyc": "^11.4.1"
   },
   "scripts": {
-    "build": "tsc index.ts --outDir compiled/",
-    "failinstall": "tsc index.ts --outDir compiled/",
-    "test": "mocha --require ts-node/register --watch-extensions tsx,ts test/*.ts",
-    "cover": "nyc --require ts-node/register --reporter=lcov --reporter=text-lcov npm test | coveralls"
+    "build": "tsc src/index.ts --outDir dist/",
+    "test": "mocha --require ts-node/register test/*.ts",
+    "cover": "nyc --require ts-node/register --reporter=lcov --reporter=text-lcov npm test | coveralls",
+    "cover-noalls": "nyc --require ts-node/register --reporter=lcov --reporter=text-lcov npm test"
   },
   "repository": {
     "type": "git",

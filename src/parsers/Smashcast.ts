@@ -1,11 +1,12 @@
-import * as I from '../interfaces';
 import { Parser } from './Parser';
+import { IChatRole, SmashcastRawMessage, IMessageContext, IMessagePart, IChatMessage, ChatPlatform } from '../interfaces';
 
-export class SmashcastParser extends Parser<I.SmashcastRawMessage> {
-	type = 'smashcast';
+export class SmashcastParser extends Parser<SmashcastRawMessage> {
+	type = ChatPlatform.Smashcast;
 
-	private emoteMapping: String[] = [];
-	constructor(message: I.SmashcastRawMessage, emotes: any) {
+	private emoteMapping: string[] = [];
+
+	constructor(message: SmashcastRawMessage, emotes: any) {
 		super(message);
 
 		emotes.forEach(emote => {
@@ -14,41 +15,41 @@ export class SmashcastParser extends Parser<I.SmashcastRawMessage> {
 		});
 	}
 
-	public getRoles(): String[] {
-		const res = [];
+	public getRoles(): IChatRole[] {
+		const res = [IChatRole.User];
 
 		if (this.message.isOwner) {
-			res.push('Streamer');
+			res.push(IChatRole.Owner);
 		}
 		
 		if (this.message.isSubscriber) {
-			res.push('Subscriber');
+			res.push(IChatRole.Subscriber);
 		}
 		
 		if (this.message.role === 'user') {
-			res.push('Mod');
+			res.push(IChatRole.Moderator);
 		}
 		
 		if (this.message.isStaff) {
-			res.push('Staff');
+			res.push(IChatRole.Staff);
 		}
 		
 		return res;
 	}
 	
-	public getUser(): I.User {
+	public getUser(): IMessageContext {
 		return {
 			userId: null,
 			username: this.message.name,
-			roles: this.getRoles()
+			roles: this.getRoles(),
 		};
 	}
 	
-	public getMessage(): I.Message {
+	public getMessage(): IMessagePart[] {
 		return this.buildParts();
 	}
 
-	public buildParts(): I.MessagePart[] {
+	public buildParts(): IMessagePart[] {
 		const parts = [];
 
 		/**
@@ -93,7 +94,7 @@ export class SmashcastParser extends Parser<I.SmashcastRawMessage> {
 		return parts;
 	}
 
-	public static parse(message: I.SmashcastRawMessage, emotes: any) {
+	public static parse(message: SmashcastRawMessage, emotes: any): IChatMessage {
 		return new SmashcastParser(message, emotes).get();
 	}
 }

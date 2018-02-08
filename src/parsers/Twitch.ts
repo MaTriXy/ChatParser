@@ -1,12 +1,12 @@
-import * as I from '../interfaces';
 import { Parser } from './Parser';
+import { IChatRole, TwitchRawMessage, IMessageContext, IMessagePart, IChatMessage, ChatPlatform } from '../interfaces';
 
-export class TwitchParser extends Parser<I.TwitchRawMessage> {
-	type = 'twitch';
+export class TwitchParser extends Parser<TwitchRawMessage> {
+	type = ChatPlatform.Smashcast;
 	private meta: any = [];
 	private emoteMapping: any = [];
 
-	constructor(message: I.TwitchRawMessage) {
+	constructor(message: TwitchRawMessage) {
 		super(message);
 
 		this.meta = this.parseMeta();
@@ -26,7 +26,7 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 		return arr;
 	}
 
-	private checkBadges(role: String): Boolean {
+	private checkBadges(role: string): boolean {
 		const badges = this.getMeta('badges').split(",");
 		return !!String(badges).search(`/^${role}/1$/`);
 	}
@@ -40,27 +40,23 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 		});
 	}
 
-	public getRoles(): String[] {
-		const res = [];
+	public getRoles(): IChatRole[] {
+		const res = [IChatRole.User];
 		
 		if (this.checkBadges('broadcaster')) {
-			res.push('Streamer');
-		}
-
-		if (this.getMeta('turbo') === '0') {
-			res.push("Turbo");
+			res.push(IChatRole.Owner);
 		}
 
 		if (this.getMeta('subscriber') === '1') {
-			res.push('Subscriber');
+			res.push(IChatRole.Subscriber);
 		}
 
 		if (this.getMeta('mod') === '1') {
-			res.push('Mod');
+			res.push(IChatRole.Moderator);
 		}
 
 		if (['global_mod', 'admin', 'staff'].indexOf(this.getMeta('user-type')) !== -1) {
-			res.push('Staff');
+			res.push(IChatRole.Staff);
 		}
 
 		return res;
@@ -70,23 +66,23 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 		return this.meta[key];
 	}
 	
-	public getChatMessage(): String {
+	public getChatMessage(): string {
 		return this.message.raw.split(" ").slice(4).join(" ").substring(1).replace(/\r?\n|\r/g, '');
 	}
 
-	public getUser(): I.User {
+	public getUser(): IMessageContext {
 		return {
 			username: this.getMeta('display-name'),
 			userId: parseInt(this.getMeta('user-id'), 10),
-			roles: this.getRoles()
+			roles: this.getRoles(),
 		};
 	}
 	
-	public getMessage(): I.Message {
+	public getMessage(): IMessagePart[] {
 		return this.buildParts();
 	}
 
-	public buildParts(): I.MessagePart[] {
+	public buildParts(): IMessagePart[] {
 		const parts = [];
 		
 		this.getChatMessage().split(' ').forEach(string => {
@@ -121,7 +117,7 @@ export class TwitchParser extends Parser<I.TwitchRawMessage> {
 		return parts;
 	}
 
-	public static parse(message: I.TwitchRawMessage) {
+	public static parse(message: TwitchRawMessage): IChatMessage{
 		return new TwitchParser(message).get();
 	}
 }

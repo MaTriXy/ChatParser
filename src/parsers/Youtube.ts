@@ -1,49 +1,49 @@
-import * as I from '../interfaces';
 import { Parser } from './Parser';
 import * as emojiRegex from 'emoji-regex';
+import { IChatRole, YoutubeRawMessage, IMessageContext, IMessagePart, IChatMessage, ChatPlatform } from '../interfaces';
 
-export class YoutubeParser extends Parser<I.YoutubeRawMessage> {
-	type = 'youtube';
+export class YoutubeParser extends Parser<YoutubeRawMessage> {
+	type = ChatPlatform.Youtube;
 
-	constructor(message: I.YoutubeRawMessage) {
+	constructor(message: YoutubeRawMessage) {
 		super(message);
 	}
 
-	public getRoles(): String[] {
-		const res = [];
+	public getRoles(): IChatRole[] {
+		const res = [IChatRole.User];
 
 		if (this.message.authorDetails.isChatModerator) {
-			res.push("Mod");			
+			res.push(IChatRole.Moderator);			
 		}
 
 		if (this.message.authorDetails.isChatOwner) {
-			res.push("Streamer");			
+			res.push(IChatRole.Owner);			
 		}
 
 		if (this.message.authorDetails.isChatSponsor) {
-			res.push("Subscriber");			
+			res.push(IChatRole.Subscriber);			
 		}
 
 		if (this.message.authorDetails.isChatModerator) {
-			res.push("Moderator");			
+			res.push(IChatRole.Moderator);			
 		}
 		
         return res;
 	}
 
-	public getUser(): I.User {
+	public getUser(): IMessageContext {
 		return {
 			username: this.message.authorDetails.displayName,
 			userId: this.message.authorDetails.channelId,
-			roles: this.getRoles()
+			roles: this.getRoles(),
 		};
 	}
 	
-	public getMessage(): I.Message {
+	public getMessage(): IMessagePart[] {
 		return this.buildParts();
 	}
 
-	public buildParts(): I.MessagePart[] {
+	public buildParts(): IMessagePart[] {
 		const parts = [];
 		const words = this.message.snippet.displayMessage.split(" ");
 
@@ -80,7 +80,7 @@ export class YoutubeParser extends Parser<I.YoutubeRawMessage> {
         return parts;
 	}
 
-	public static parse(message: I.YoutubeRawMessage) {
+	public static parse(message: YoutubeRawMessage): IChatMessage {
 		return new YoutubeParser(message).get();
 	}
 }
