@@ -1,9 +1,9 @@
 {
   "name": "chat-parser",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Parse chat from streaming platforms into a a single format.",
   "main": "dist/index.js",
-  "typings": "dist/index",
+  "typings": "dist/index.d.ts",
   "directories": {
     "example": "examples"
   },
@@ -15,12 +15,14 @@
   "devDependencies": {
     "@types/chai": "^4.1.2",
     "@types/mocha": "^2.2.48",
+    "@types/node": "^8.9.1",
     "chai": "^4.1.2",
     "mocha": "^5.0.0",
-    "nyc": "^11.4.1"
+    "nyc": "^11.4.1",
+    "rimraf": "^2.6.2"
   },
   "scripts": {
-    "build": "tsc src/index.ts --outDir dist/",
+    "build": "rimraf dist && tsc",
     "test": "mocha --require ts-node/register test/*.ts",
     "cover": "nyc --require ts-node/register --reporter=lcov --reporter=text-lcov npm test | coveralls",
     "cover-noalls": "nyc --require ts-node/register --reporter=lcov --reporter=text-lcov npm test"

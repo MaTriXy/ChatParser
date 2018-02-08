@@ -18,7 +18,7 @@ export class TwitchParser extends Parser<TwitchRawMessage> {
 		const arr = [];
 		const parts = this.message.raw.substring(1).split(" :")[0].split(";");
 		
-		parts.forEach((data, i) => {
+		parts.forEach((data) => {
 			var ex = data.split('=');
 			arr[ex[0]] = ex[1];
 		});
