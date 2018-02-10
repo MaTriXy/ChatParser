@@ -36,7 +36,7 @@ export class MixerParser extends Parser<MixerRawMessage> {
 	
 	public getUser(): IMessageContext {
 		return {
-			userId: this.message.user_id,
+			userId: String(this.message.user_id),
 			username: this.message.user_name,
 			roles: this.getRoles(),
 		};

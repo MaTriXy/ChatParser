@@ -73,7 +73,7 @@ export class TwitchParser extends Parser<TwitchRawMessage> {
 	public getUser(): IMessageContext {
 		return {
 			username: this.getMeta('display-name'),
-			userId: parseInt(this.getMeta('user-id'), 10),
+			userId: this.getMeta('user-id'),
 			roles: this.getRoles(),
 		};
 	}

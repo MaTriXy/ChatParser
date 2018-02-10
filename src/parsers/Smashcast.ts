@@ -39,7 +39,7 @@ export class SmashcastParser extends Parser<SmashcastRawMessage> {
 	
 	public getUser(): IMessageContext {
 		return {
-			userId: null,
+			userId: this.message.name, // Smashcast, have user Ids? Nahhhh.
 			username: this.message.name,
 			roles: this.getRoles(),
 		};

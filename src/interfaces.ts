@@ -63,7 +63,7 @@ export interface IMessagePart {
 }
 
 export interface IMessageContext {
-	userId: string | number,
+	userId: string,
 	username: string,
 	roles: IChatRole[],
 }
