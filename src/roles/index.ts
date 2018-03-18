@@ -2,7 +2,7 @@ import { Role } from "./Role";
 
 export { Role } from './Role';
 
-export const Roles = {
+export const Roles: { DEVELOPER: Role, OWNER: Role, STAFF: Role, EDITOR: Role, MODERATOR: Role, REGULAR: Role, SUBSCRIBER: Role, FOLLOWER: Role, BOT: Role, USER: Role } = {
     // StreamJar Admins
     DEVELOPER: new Role('Developer', 100),
 
@@ -22,4 +22,18 @@ export const Roles = {
     // Normal users
     BOT: new Role('Bot', 1),
     USER: new Role('User', 0),
+}
+
+export function fromRoles(roles: { role: string, level: number}[]): Role[] {
+    return roles.map(role => fromRole(role));
+}
+
+export function fromRole(role: { role: string, level: number}): Role {
+    const current: Role = Object.keys(Roles).map((name: string) => Roles[name]).find((nRole: Role) => nRole.level === role.level);
+
+    if (current) {
+        return current;
+    }
+
+    return new Role(role.role, role.level);
 }

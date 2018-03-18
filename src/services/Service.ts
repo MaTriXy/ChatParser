@@ -19,10 +19,10 @@ export abstract class Service<T extends RawMessage, P extends RawEvent> {
     }
 
     private getMeta(segments: IMessageSegment[], botName): IMessageMetadata {
-        const meta = { command: false };
+        const meta: { command: boolean, commandName?: string, description: string } = { command: false, description: '' };
         let strip = 0;
 
-        if (botName && segments.length >= 2 && segments[0].type === 'mention' && (segments[0].identifier.toLowerCase() === botName.toLowerCase())) {
+        if (botName && segments.length >= 2 && segments[0].type === 'mention' && ((<string>segments[0].identifier).toLowerCase() === botName.toLowerCase())) {
             meta.command = true;
             meta.commandName = segments[1].text;
             strip = 2;

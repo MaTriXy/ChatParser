@@ -1,6 +1,6 @@
 export enum IPlatform {
-    Mixer,
-    Twitch,
-    Smashcast,
-    YouTube,
+    Mixer = 'mixer',
+    Twitch = 'twitch',
+    Smashcast = 'smashcast',
+    YouTube = 'youtube',
 }
