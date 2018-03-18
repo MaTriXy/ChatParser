@@ -1,6 +1,6 @@
 {
   "name": "chat-parser",
-  "version": "4.0.1-beta.0",
+  "version": "4.0.1-beta.1",
   "description": "Parse chat from streaming platforms into a a single format.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
