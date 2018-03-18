@@ -12,12 +12,12 @@ export const Roles = {
     
     // Channel Moderators
     EDITOR: new Role('Editor', 40),
-    MODERATOR: new Role('Editor', 35),
+    MODERATOR: new Role('Moderator', 35),
 
     // Channel Users
     REGULAR: new Role('Regular', 20),
-    SUBSCRIBER: new Role('Regular', 10),
-    FOLLOWER: new Role('Regular', 10),
+    SUBSCRIBER: new Role('Subscriber', 10),
+    FOLLOWER: new Role('Follower', 10),
 
     // Normal users
     BOT: new Role('Bot', 1),

@@ -1,7 +1,7 @@
 export class Role {
     constructor(private role: string, public readonly level: number) {}
 
-    public getName() {
+    public getName(): string {
         return this.role;
     }
 

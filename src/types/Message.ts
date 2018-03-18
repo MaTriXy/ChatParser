@@ -4,7 +4,7 @@ import { Role } from "../roles";
 export interface IMessageSegment {
 	type: string,
 	text: string,
-	identifier?: string | { type: string, url: string, coords: any };
+	identifier?: string | { type: string, url: string, coords?: any };
 }
 
 export interface IContext {

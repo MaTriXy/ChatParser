@@ -155,10 +155,11 @@ export const command = {
                 "text": "!give"
             },
             {
-                "type": "text",
-                "data": "Luke",
-                "text": "Luke"
-            },
+                "text": "@Luke",
+                "type": "tag",
+                "username": "Luke",
+                "id": 332
+            }, 
         ],
         "meta": {}
     }
@@ -187,10 +188,11 @@ export const tag = {
                 "text": "give"
             },
             {
-                "type": "text",
-                "data": "Luke",
-                "text": "Luke"
-            },            
+                "text": "@Luke",
+                "type": "tag",
+                "username": "Luke",
+                "id": 332
+            },           
         ],
         "meta": {}
     }
