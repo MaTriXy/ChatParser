@@ -4,21 +4,21 @@ import { IPlatform } from '../types/Platform';
 import { Roles } from '../roles';
 import { TwitchRawMessage } from '../types/RawMessages';
 
-export class Twitch extends Service<TwitchRawMessage, any> {
+export class TwitchParser extends Service<TwitchRawMessage, any> {
 
 	protected getPlatform(): IPlatform {
 		return IPlatform.Twitch;
     }
-    
+
 	private parseMeta(message: TwitchRawMessage): { [key: string]: string } {
 		const arr = {};
 		const parts = message.raw.substring(1).split(" :")[0].split(";");
-		
+
 		parts.forEach((data) => {
 			var ex = data.split('=');
 			arr[ex[0]] = ex[1];
 		});
-		
+
 		return arr;
     }
 
@@ -32,13 +32,13 @@ export class Twitch extends Service<TwitchRawMessage, any> {
 			const emoteText = raw.substring(parseInt(range[0], 10), parseInt(range[1], 10) + 1);
 			map[emoteText] = parseInt(mapping[0], 10);
         });
-        
+
         return map;
 	}
 
     private checkBadges(metadata: { [key: string]: string }, role: string): boolean {
         const badges = metadata['badges'].split(",");
-        
+
         return badges.some(a => a === `${role}/1`);
 	}
 
@@ -48,7 +48,7 @@ export class Twitch extends Service<TwitchRawMessage, any> {
 
 	private getRoles(metadata: { [key: string]: string }, userId: string) {
 		const roles = [Roles.USER];
-		
+
 		if (this.checkBadges(metadata, 'broadcaster')) {
 			roles.push(Roles.OWNER);
 		}
@@ -81,7 +81,7 @@ export class Twitch extends Service<TwitchRawMessage, any> {
 		const roles = this.getRoles(meta, meta['user-id']);
 
 		return {
-			userId: `${meta['user-id']}`,
+			userId: +meta['user-id'],
 			username: meta['display-name'],
 			primaryRole: roles[0],
 			roles: roles,
@@ -91,9 +91,9 @@ export class Twitch extends Service<TwitchRawMessage, any> {
 	protected getEventContext(message: TwitchRawMessage): IContext {
         const meta = this.parseMeta(message);
         const roles = this.getRoles(meta, meta['user-id']);
-        		
+
 		return {
-			userId: `${meta['user-id']}`,
+			userId: +meta['user-id'],
 			username: meta['display-name'],
 			primaryRole: roles[0],
 			roles: roles,

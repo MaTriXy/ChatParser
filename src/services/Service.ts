@@ -34,7 +34,7 @@ export abstract class Service<T extends RawMessage, P extends RawEvent> {
 
         meta.description = segments.slice(strip).map(a => a.text).join(' ');
 
-        return meta;        
+        return meta;
     }
 
     public parseMessage(message: T, botName?: string): IMessage {

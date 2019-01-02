@@ -1,4 +1,6 @@
-export { Mixer } from './services/Mixer';
+export { MixerParser } from './services/Mixer';
+export { TwitchParser } from './services/Twitch';
+export { SmashcastParser } from './services/Smashcast';
 export { Role, Roles, fromRole, fromRoles } from './roles';
 
 export * from './types/Config';

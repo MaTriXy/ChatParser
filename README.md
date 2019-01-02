@@ -5,11 +5,7 @@
 An issue we're running to at StreamJar is everybody handles their chats completely different. Which when you want to support lots of different services in the same way, it can cause less than ideal situations.
 
 ## Quick Note.
-Smashcast has it's quirks, one being that they send no information on emotes with the chat event. Handling API requests is out of the scope of this module but you can find the emotes at `https://www.smashcast.tv/api/chat/emotes/luket.json`. Once you've got (and possibly cached) the JSON call the following to make the module aware.
-```
-parser.loadSmashcastEmotes(object);
-```
-
+Smashcat has some interesting quirks.. such as no user ids and not easily sending down emotes. Currently emotes are just parsed as raw text.
 
 ## Installation
 To install, simply install it via NPM.
@@ -20,12 +16,13 @@ npm install --save chat-parser
 ## Getting Started
 Getting started is simple. Require the module, create a new instance.. and parse.
 ```
-import { Parser, ChatPlatform } from 'chat-parser';
+import { MixerParser } from 'chat-parser';
 
-const parser = new Parser();
-parser.parse(ChatPlatform.Mixer, {
-	..
-});
+const parser = new MixerParser({ developers: [1], bots: [2] });
+
+parser.parse({
+	// raw message
+}, 'bot-username');
 ```
 
 ## Expected object
@@ -40,9 +37,15 @@ The parsed message contains basic user information and the message itself.
 ```
 {
 	"user": {
-		"username": "Luke",
 		"userId": 373,
-		roles: [ 'owner' ],
+		"username": "Luke",
+		"roles": [ Role{ role: 'Owner', level: 50 }],
+		"primaryRole": Role{ role: 'Owner', level: 50 },
+	},
+	'metadata": {
+		"command": false,
+		"commandName": "give",
+		"description": '@Luke 100',
 	},
 	"message": [
 		{
@@ -74,7 +77,7 @@ Currently there are 4 types of message. Text, link, mention and emoticon.
 }
 ```
 
-#### Link:
+#### Mention:
 ```
 {
 	"type": "mention",

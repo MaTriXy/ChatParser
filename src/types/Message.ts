@@ -8,7 +8,7 @@ export interface IMessageSegment {
 }
 
 export interface IContext {
-	userId: string,
+	userId: number,
 	username: string,
     primaryRole: Role,
     roles: Role[],

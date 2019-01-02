@@ -9,14 +9,14 @@ export const Roles: { DEVELOPER: Role, OWNER: Role, STAFF: Role, EDITOR: Role, M
     // Channel Staff
     OWNER: new Role('Owner', 50),
     STAFF: new Role('Staff', 45),
-    
+
     // Channel Moderators
     EDITOR: new Role('Editor', 40),
     MODERATOR: new Role('Moderator', 35),
 
     // Channel Users
-    REGULAR: new Role('Regular', 20),
-    SUBSCRIBER: new Role('Subscriber', 10),
+    SUBSCRIBER: new Role('Subscriber', 20),
+    REGULAR: new Role('Regular', 15),
     FOLLOWER: new Role('Follower', 10),
 
     // Normal users

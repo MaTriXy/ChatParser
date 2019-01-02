@@ -5,13 +5,13 @@ import { Roles, Role } from '../roles';
 import { MixerRawEvent } from '../types/RawEvent';
 import { MixerRawMessage } from '../types/RawMessages';
 
-export class Mixer extends Service<MixerRawMessage, MixerRawEvent> {
+export class MixerParser extends Service<MixerRawMessage, MixerRawEvent> {
 
 	protected getPlatform(): IPlatform {
 		return IPlatform.Mixer;
 	}
 
-	private getRoles(userRoles: string[], userId: number) {
+	private getRoles(userRoles: string[], userId: number): Role[] {
 		const roles = <Role[]>userRoles.map(role => {
 			if (['Founder', 'Staff'].indexOf(role) !== -1) {
 				return Roles.STAFF;
@@ -24,7 +24,7 @@ export class Mixer extends Service<MixerRawMessage, MixerRawEvent> {
 			if (role === 'Mod') {
 				return Roles.MODERATOR;
 			}
-			
+
 			if (role === 'ChannelEditor') {
 				return Roles.EDITOR;
 			}
@@ -55,7 +55,7 @@ export class Mixer extends Service<MixerRawMessage, MixerRawEvent> {
 		const roles = this.getRoles(message.user_roles, message.user_id);
 
 		return {
-			userId: `${message.user_id}`,
+			userId: +message.user_id,
 			username: message.user_name,
 			primaryRole: roles[0],
 			roles: roles,
@@ -64,9 +64,9 @@ export class Mixer extends Service<MixerRawMessage, MixerRawEvent> {
 
 	protected getEventContext(message: MixerRawEvent): IContext {
 		const roles = this.getRoles(message.roles, message.id);
-		
+
 		return {
-			userId: `${message.id}`,
+			userId: +message.id,
 			username: message.username,
 			primaryRole: roles[0],
 			roles: roles,
@@ -86,7 +86,7 @@ export class Mixer extends Service<MixerRawMessage, MixerRawEvent> {
 
 				piece.text.split(' ').forEach(bit => {
 					if (bit === '' || bit === ' ') return;
-	
+
 					parts.push({
 						type: 'text',
 						text: bit
