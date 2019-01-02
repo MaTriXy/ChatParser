@@ -1,6 +1,6 @@
 {
   "name": "chat-parser",
-  "version": "3.0.2",
+  "version": "4.0.1",
   "description": "Parse chat from streaming platforms into a a single format.",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -10,7 +10,7 @@
   "dependencies": {
     "emoji-regex": "^6.5.1",
     "ts-node": "^4.1.0",
-    "typescript": "^2.7.1"
+    "typescript": "^2.7.2"
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",
@@ -24,9 +24,9 @@
   },
   "scripts": {
     "build": "rimraf dist && tsc",
-    "test": "mocha --require ts-node/register test/*.ts",
+    "test": "mocha --require ts-node/register tests/**/*.spec.ts",
     "cover": "nyc --require ts-node/register --reporter=lcov --reporter=text-lcov npm test | coveralls",
-    "cover-noalls": "nyc --require ts-node/register --reporter=lcov --reporter=text-lcov npm test"
+    "coverage": "nyc --require ts-node/register npm test"
   },
   "repository": {
     "type": "git",
@@ -40,11 +40,13 @@
   "homepage": "https://github.com/StreamJar/ChatParser#readme",
   "nyc": {
     "include": [
-      "*.ts",
-      "**/*.ts"
+      "src/*.ts",
+      "src/**/*.ts"
     ],
     "exclude": [
-      "node_modules/"
+      "node_modules/",
+      "coverage/",
+      "_"
     ],
     "extension": [
       ".ts"
