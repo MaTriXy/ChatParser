@@ -26,7 +26,7 @@ export class TwitchParser extends Service<TwitchRawMessage, any> {
         const map = {};
         const meta = this.parseMeta(message);
 
-		meta['emotes'].split('/').forEach(emote => {
+		meta['emotes'].split('/').filter(i => !!i).forEach(emote => {
 			const mapping = emote.split(':');
 			const range = mapping[1].split('-');
 			const emoteText = raw.substring(parseInt(range[0], 10), parseInt(range[1], 10) + 1);
@@ -100,8 +100,8 @@ export class TwitchParser extends Service<TwitchRawMessage, any> {
 		}
 	}
 
-	protected getMessageId(): string {
-		return null;
+	protected getMessageId(message: TwitchRawMessage): string {
+		return this.parseMeta(message)['id'];
 	}
 
 	protected getMessageSegments(message: TwitchRawMessage): IMessageSegment[] {

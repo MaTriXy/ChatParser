@@ -87,10 +87,17 @@ export class MixerParser extends Service<MixerRawMessage, MixerRawEvent> {
 				piece.text.split(' ').forEach(bit => {
 					if (bit === '' || bit === ' ') return;
 
-					parts.push({
-						type: 'text',
-						text: bit
-					});
+					const lastPart = parts[parts.length - 1];
+
+					if (lastPart && lastPart.type === 'text') {
+						lastPart.text = `${lastPart.text} ${bit}`;
+					} else {
+						parts.push({
+							type: 'text',
+							text: bit
+						});
+					}
+
 				});
 			} else if (piece.type === 'emoticon') {
 				parts.push({

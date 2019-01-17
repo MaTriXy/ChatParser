@@ -24,11 +24,11 @@ export abstract class Service<T extends RawMessage, P extends RawEvent> {
 
         if (botName && segments.length >= 2 && segments[0].type === 'mention' && ((<string>segments[0].identifier).toLowerCase() === botName.toLowerCase())) {
             meta.command = true;
-            meta.commandName = segments[1].text;
+            meta.commandName = segments[1].text.toLowerCase();
             strip = 2;
         } else if (segments[0].text.startsWith('!')) {
             meta.command = true;
-            meta.commandName = segments[0].text.replace('!', '');
+            meta.commandName = segments[0].text.replace('!', '').toLowerCase();
             strip = 1;
         }
 

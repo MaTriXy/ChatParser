@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { TwitchParser } from "../../src/services/twitch";
-import { basic_message, complicated_role, jar_roles, bot_roles, command, tag } from "../fixtures/twitch-chat";
+import { basic_message, complicated_role, jar_roles, bot_roles, command, tag, noEmotes } from "../fixtures/twitch-chat";
 import { Roles } from '../../src/roles';
 import { IPlatform } from '../../src/types/Platform';
 
@@ -18,7 +18,7 @@ describe('Twitch', () => {
 
             expect(parse.metadata.command).to.equal(false);
             expect(parse.metadata.description).to.equal('test');
-            expect(parse.messageId).to.equal(null);
+            expect(parse.messageId).to.equal("b80c999d-31b6-4dd8-a708-27d249a672fe");
             expect(parse.platform).to.equal(IPlatform.Twitch);
             expect(parse.raw).to.equal(basic_message);
             expect(parse.user).to.deep.equal({
@@ -118,6 +118,14 @@ describe('Twitch', () => {
             expect(parse.metadata.command).to.equal(true);
             expect(parse.metadata.commandName).to.equal('give');
             expect(parse.metadata.description).to.equal('@Luke');
+        });
+
+		it('handles no emotes', () => {
+            const parse = twitch.parseMessage(noEmotes, 'StreamJar');
+
+            expect(parse.metadata.command).to.equal(false);
+            expect(parse.message.length).to.equal(1);
+            expect(parse.message[0].type).to.equal('text');
         });
     });
 });
