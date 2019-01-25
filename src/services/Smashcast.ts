@@ -15,7 +15,7 @@ export class SmashcastParser extends Service<SmashcastRawMessage, any> {
 		return IPlatform.Smashcast;
     }
 
-	private getRoles(message: SmashcastRawMessage) {
+	private getRoles(message: SmashcastRawMessage, userId: number) {
 		const roles = [Roles.USER];
 
 		if (message.isOwner) {
@@ -35,14 +35,19 @@ export class SmashcastParser extends Service<SmashcastRawMessage, any> {
 			roles.push(Roles.STAFF);
 		}
 
+		if (this.config.developers.indexOf(userId) !== -1) {
+			roles.push(Roles.DEVELOPER);
+		}
+
 		return this.sortRoles(roles);
 	}
 
 	protected async getMessageContext(message: SmashcastRawMessage): Promise<IContext> {
-		const roles = this.getRoles(message);
+		const userId = await this.findUser(message.name).catch(() => null);
+		const roles = this.getRoles(message, userId);
 
 		return {
-			userId: await this.findUser(message.name).catch(() => null),
+			userId,
 			username:  message.name,
 			primaryRole: roles[0],
 			roles: roles,
@@ -50,7 +55,7 @@ export class SmashcastParser extends Service<SmashcastRawMessage, any> {
 	}
 
 	protected getEventContext(message: SmashcastRawMessage): IContext {
-        const roles = this.getRoles(message);
+        const roles = this.getRoles(message, null);
 
 		return {
 			userId: null,
