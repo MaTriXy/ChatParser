@@ -5,7 +5,7 @@ import { basic_message, complicated_role, jar_roles, bot_roles, command, tag, no
 import { Roles } from '../../src/roles';
 import { IPlatform } from '../../src/types/Platform';
 
-describe('Twitch', () => {
+describe('Twitch', async () => {
     let twitch : TwitchParser;
 
     beforeEach(() => {
@@ -13,8 +13,8 @@ describe('Twitch', () => {
     });
 
     describe('chat', () => {
-        it('parses messages', () => {
-            const parse = twitch.parseMessage(basic_message)
+        it('parses messages', async () => {
+            const parse = await twitch.parseMessage(basic_message)
 
             expect(parse.metadata.command).to.equal(false);
             expect(parse.metadata.description).to.equal('test');
@@ -35,21 +35,21 @@ describe('Twitch', () => {
         });
 
         describe('segments', () => {
-            it('parses correctly', () => {
-                const parse = twitch.parseMessage(complicated_role)
+            it('parses correctly', async () => {
+                const parse = await twitch.parseMessage(complicated_role)
 
                 expect(parse.message).to.have.length(5);
             });
 
-            it('parses text', () => {
-                const parse = twitch.parseMessage(basic_message)
+            it('parses text', async () => {
+                const parse = await twitch.parseMessage(basic_message)
 
                 expect(parse.message[0].text).to.equal('test');
                 expect(parse.message[0].type).to.equal('text');
             });
 
-            it('parses emotes - built-in', () => {
-                const parse = twitch.parseMessage(complicated_role)
+            it('parses emotes - built-in', async () => {
+                const parse = await twitch.parseMessage(complicated_role)
 
                 expect(parse.message[1].text).to.equal(':D');
                 expect(parse.message[1].type).to.equal('emoticon');
@@ -57,23 +57,23 @@ describe('Twitch', () => {
                 expect((<any>parse.message[1].identifier).url).to.equal('http://static-cdn.jtvnw.net/emoticons/v1/3/1.0');
             });
 
-            it('parses emotes - link', () => {
-                const parse = twitch.parseMessage(complicated_role)
+            it('parses emotes - link', async () => {
+                const parse = await twitch.parseMessage(complicated_role)
 
                 expect(parse.message[3].text).to.equal('https://google.com');
                 expect(parse.message[3].type).to.equal('url');
             });
 
-            it('parses mention - tag', () => {
-                const parse = twitch.parseMessage(complicated_role)
+            it('parses mention - tag', async () => {
+                const parse = await twitch.parseMessage(complicated_role)
 
                 expect(parse.message[4].text).to.equal('@StreamJar');
                 expect(parse.message[4].type).to.equal('mention');
             });
         })
 
-        it('parses multiple roles', () => {
-            const parse = twitch.parseMessage(complicated_role);
+        it('parses multiple roles', async () => {
+            const parse = await twitch.parseMessage(complicated_role);
 
             expect(parse.user.roles).to.have.length(5);
             expect(parse.user.roles).to.include(Roles.USER);
@@ -84,8 +84,8 @@ describe('Twitch', () => {
             expect(parse.user.primaryRole).to.equal(Roles.OWNER);
         });
 
-        it('handles a user being streamjar', () => {
-            const parse = twitch.parseMessage(jar_roles);
+        it('handles a user being streamjar', async () => {
+            const parse = await twitch.parseMessage(jar_roles);
 
             expect(parse.user.roles).to.have.length(6);
             expect(parse.user.roles).to.include(Roles.USER);
@@ -94,8 +94,8 @@ describe('Twitch', () => {
             expect(parse.user.primaryRole).to.equal(Roles.DEVELOPER);
         });
 
-        it('handles a user being a bot', () => {
-            const parse = twitch.parseMessage(bot_roles);
+        it('handles a user being a bot', async () => {
+            const parse = await twitch.parseMessage(bot_roles);
 
             expect(parse.user.roles).to.have.length(2);
             expect(parse.user.roles).to.include(Roles.USER);
@@ -104,24 +104,24 @@ describe('Twitch', () => {
             expect(parse.user.primaryRole).to.equal(Roles.BOT);
         });
 
-        it('detects a command being a command', () => {
-            const parse = twitch.parseMessage(command);
+        it('detects a command being a command', async () => {
+            const parse = await twitch.parseMessage(command);
 
             expect(parse.metadata.command).to.equal(true);
             expect(parse.metadata.commandName).to.equal('give');
             expect(parse.metadata.description).to.equal('@Luke');
         });
 
-        it('detects a command being a command via tag', () => {
-            const parse = twitch.parseMessage(tag, 'StreamJar');
+        it('detects a command being a command via tag', async () => {
+            const parse = await twitch.parseMessage(tag, 'StreamJar');
 
             expect(parse.metadata.command).to.equal(true);
             expect(parse.metadata.commandName).to.equal('give');
             expect(parse.metadata.description).to.equal('@Luke');
         });
 
-		it('handles no emotes', () => {
-            const parse = twitch.parseMessage(noEmotes, 'StreamJar');
+		it('handles no emotes', async () => {
+            const parse = await twitch.parseMessage(noEmotes, 'StreamJar');
 
             expect(parse.metadata.command).to.equal(false);
             expect(parse.message.length).to.equal(1);

@@ -13,8 +13,8 @@ describe('Smashcast', () => {
     });
 
     describe('chat', () => {
-        it('parses messages', () => {
-            const parse = smashcast.parseMessage(basic_message)
+        it('parses messages', async () => {
+            const parse = await smashcast.parseMessage(basic_message)
 
             expect(parse.metadata.command).to.equal(false);
             expect(parse.metadata.description).to.equal('test');
@@ -35,43 +35,43 @@ describe('Smashcast', () => {
         });
 
         describe('segments', () => {
-            it('parses correctly', () => {
-                const parse = smashcast.parseMessage(complicated_message)
+            it('parses correctly', async () => {
+                const parse = await smashcast.parseMessage(complicated_message)
 
                 expect(parse.message).to.have.length(5);
             });
 
-            it('parses text', () => {
-                const parse = smashcast.parseMessage(basic_message)
+            it('parses text', async () => {
+                const parse = await smashcast.parseMessage(basic_message)
 
                 expect(parse.message[0].text).to.equal('test');
                 expect(parse.message[0].type).to.equal('text');
             });
 
-            it('parses emotes - built-in', () => {
-                const parse = smashcast.parseMessage(complicated_message)
+            it('parses emotes - built-in', async () => {
+                const parse = await smashcast.parseMessage(complicated_message)
 
                 expect(parse.message[1].text).to.equal(':D');
                 expect(parse.message[1].type).to.equal('text');
             });
 
-            it('parses emotes - link', () => {
-                const parse = smashcast.parseMessage(complicated_message)
+            it('parses emotes - link', async () => {
+                const parse = await smashcast.parseMessage(complicated_message)
 
                 expect(parse.message[3].text).to.equal('https://google.com');
                 expect(parse.message[3].type).to.equal('url');
             });
 
-            it('parses mention - tag', () => {
-                const parse = smashcast.parseMessage(complicated_message)
+            it('parses mention - tag', async () => {
+                const parse = await smashcast.parseMessage(complicated_message)
 
                 expect(parse.message[4].text).to.equal('@StreamJar');
                 expect(parse.message[4].type).to.equal('mention');
             });
         })
 
-        it('parses multiple roles', () => {
-            const parse = smashcast.parseMessage(complicated_message);
+        it('parses multiple roles', async () => {
+            const parse = await smashcast.parseMessage(complicated_message);
 
             expect(parse.user.roles).to.have.length(5);
             expect(parse.user.roles).to.include(Roles.USER);
@@ -82,20 +82,37 @@ describe('Smashcast', () => {
             expect(parse.user.primaryRole).to.equal(Roles.OWNER);
         });
 
-        it('detects a command being a command', () => {
-            const parse = smashcast.parseMessage(command);
+        it('detects a command being a command', async () => {
+            const parse = await smashcast.parseMessage(command);
 
             expect(parse.metadata.command).to.equal(true);
             expect(parse.metadata.commandName).to.equal('give');
             expect(parse.metadata.description).to.equal('@Luke');
         });
 
-        it('detects a command being a command via tag', () => {
-            const parse = smashcast.parseMessage(command_mention, 'StreamJar');
+        it('detects a command being a command via tag', async () => {
+            const parse = await smashcast.parseMessage(command_mention, 'StreamJar');
 
             expect(parse.metadata.command).to.equal(true);
             expect(parse.metadata.commandName).to.equal('give');
             expect(parse.metadata.description).to.equal('@Luke');
         });
-    });
+	});
+
+	describe('user id', () => {
+		it('It uses the userId function', async () => {
+			let called = null;
+
+			(smashcast as SmashcastParser).setUserIdentifier(async (name: string) => {
+				called = name;
+
+				return 2;
+			});
+
+			const parse = await smashcast.parseMessage(complicated_message)
+
+			expect(parse.user.userId).to.equal(2);
+			expect(called).to.equal('StreamJar');
+		});
+	})
 });

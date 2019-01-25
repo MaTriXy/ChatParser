@@ -51,7 +51,7 @@ export class MixerParser extends Service<MixerRawMessage, MixerRawEvent> {
 		return this.sortRoles(roles);
 	}
 
-	protected getMessageContext(message: MixerRawMessage): IContext {
+	protected async getMessageContext(message: MixerRawMessage): Promise<IContext> {
 		const roles = this.getRoles(message.user_roles, message.user_id);
 
 		return {

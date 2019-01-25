@@ -5,6 +5,11 @@ import { IPlatform } from '../types/Platform';
 import { Roles } from '../roles';
 
 export class SmashcastParser extends Service<SmashcastRawMessage, any> {
+	private findUser: (username: string) => Promise<number> = () => Promise.resolve(null);
+
+	public setUserIdentifier(fn: (username: string) => Promise<number>): void {
+		this.findUser = fn;
+	}
 
 	protected getPlatform(): IPlatform {
 		return IPlatform.Smashcast;
@@ -33,11 +38,11 @@ export class SmashcastParser extends Service<SmashcastRawMessage, any> {
 		return this.sortRoles(roles);
 	}
 
-	protected getMessageContext(message: SmashcastRawMessage): IContext {
+	protected async getMessageContext(message: SmashcastRawMessage): Promise<IContext> {
 		const roles = this.getRoles(message);
 
 		return {
-			userId: null,
+			userId: await this.findUser(message.name).catch(() => null),
 			username:  message.name,
 			primaryRole: roles[0],
 			roles: roles,

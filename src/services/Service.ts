@@ -9,7 +9,7 @@ export abstract class Service<T extends RawMessage, P extends RawEvent> {
     constructor(protected config: IServiceConfig) {}
 
     protected abstract getPlatform(): IPlatform;
-    protected abstract getMessageContext(message: T): IContext;
+    protected abstract async getMessageContext(message: T): Promise<IContext>;
     protected abstract getMessageId(message: T): string | null;
     protected abstract getMessageSegments(message: T): IMessageSegment[];
     protected abstract getEventContext(message: P): IContext;
@@ -37,14 +37,14 @@ export abstract class Service<T extends RawMessage, P extends RawEvent> {
         return meta;
     }
 
-    public parseMessage(message: T, botName?: string): IMessage {
+    public async parseMessage(message: T, botName?: string): Promise<IMessage> {
         const segments = this.getMessageSegments(message);
 
         return {
             platform: this.getPlatform(),
             message: segments,
             messageId: this.getMessageId(message),
-            user: this.getMessageContext(message),
+            user: await this.getMessageContext(message),
             metadata: this.getMeta(segments, botName),
             raw: message,
         }

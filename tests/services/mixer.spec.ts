@@ -14,8 +14,8 @@ describe('Mixer', () => {
     });
 
     describe('chat', () => {
-        it('parses messages', () => {
-            const parse = mixer.parseMessage(basic_message)
+        it('parses messages', async () => {
+            const parse = await mixer.parseMessage(basic_message)
 
             expect(parse.metadata.command).to.equal(false);
             expect(parse.metadata.description).to.equal('test');
@@ -36,21 +36,21 @@ describe('Mixer', () => {
         });
 
         describe('segments', () => {
-            it('parses correctly', () => {
-                const parse = mixer.parseMessage(complicated_role)
+            it('parses correctly', async () => {
+                const parse = await mixer.parseMessage(complicated_role)
 
                 expect(parse.message).to.have.length(5);
             });
 
-            it('parses text', () => {
-                const parse = mixer.parseMessage(basic_message)
+            it('parses text', async () => {
+                const parse = await mixer.parseMessage(basic_message)
 
                 expect(parse.message[0].text).to.equal('test');
                 expect(parse.message[0].type).to.equal('text');
             });
 
-            it('parses emotes - built-in', () => {
-                const parse = mixer.parseMessage(complicated_role)
+            it('parses emotes - built-in', async () => {
+                const parse = await mixer.parseMessage(complicated_role)
 
                 expect(parse.message[1].text).to.equal(':D');
                 expect(parse.message[1].type).to.equal('emoticon');
@@ -58,8 +58,8 @@ describe('Mixer', () => {
                 expect((<any>parse.message[1].identifier).url).to.equal('https://mixer.com/_latest/emoticons/default.png');
             });
 
-            it('parses emotes - external', () => {
-                const parse = mixer.parseMessage(complicated_role)
+            it('parses emotes - external', async () => {
+                const parse = await mixer.parseMessage(complicated_role)
 
                 expect(parse.message[2].text).to.equal(':(');
                 expect(parse.message[2].type).to.equal('emoticon');
@@ -68,23 +68,23 @@ describe('Mixer', () => {
             });
 
 
-            it('parses emotes - link', () => {
-                const parse = mixer.parseMessage(complicated_role)
+            it('parses emotes - link', async () => {
+                const parse = await mixer.parseMessage(complicated_role)
 
                 expect(parse.message[3].text).to.equal('https://google.com');
                 expect(parse.message[3].type).to.equal('url');
             });
 
-            it('parses mention - tag', () => {
-                const parse = mixer.parseMessage(complicated_role)
+            it('parses mention - tag', async () => {
+                const parse = await mixer.parseMessage(complicated_role)
 
                 expect(parse.message[4].text).to.equal('@StreamJar');
                 expect(parse.message[4].type).to.equal('mention');
             });
         })
 
-        it('parses multiple roles', () => {
-            const parse = mixer.parseMessage(complicated_role);
+        it('parses multiple roles', async () => {
+            const parse = await mixer.parseMessage(complicated_role);
 
             expect(parse.user.roles).to.have.length(6);
             expect(parse.user.roles).to.include(Roles.USER);
@@ -96,8 +96,8 @@ describe('Mixer', () => {
             expect(parse.user.primaryRole).to.equal(Roles.OWNER);
         });
 
-        it('handles a user being streamjar', () => {
-            const parse = mixer.parseMessage(jar_roles);
+        it('handles a user being streamjar', async () => {
+            const parse = await mixer.parseMessage(jar_roles);
 
             expect(parse.user.roles).to.have.length(2);
             expect(parse.user.roles).to.include(Roles.USER);
@@ -106,8 +106,8 @@ describe('Mixer', () => {
             expect(parse.user.primaryRole).to.equal(Roles.DEVELOPER);
         });
 
-        it('handles a user being a bot', () => {
-            const parse = mixer.parseMessage(bot_roles);
+        it('handles a user being a bot', async () => {
+            const parse = await mixer.parseMessage(bot_roles);
 
             expect(parse.user.roles).to.have.length(2);
             expect(parse.user.roles).to.include(Roles.USER);
@@ -116,16 +116,16 @@ describe('Mixer', () => {
             expect(parse.user.primaryRole).to.equal(Roles.BOT);
         });
 
-        it('detects a command being a command', () => {
-            const parse = mixer.parseMessage(command);
+        it('detects a command being a command', async () => {
+            const parse = await mixer.parseMessage(command);
 
             expect(parse.metadata.command).to.equal(true);
             expect(parse.metadata.commandName).to.equal('give');
             expect(parse.metadata.description).to.equal('@Luke');
         });
 
-        it('detects a command being a command via tag', () => {
-            const parse = mixer.parseMessage(tag, 'StreamJar');
+        it('detects a command being a command via tag', async () => {
+            const parse = await mixer.parseMessage(tag, 'StreamJar');
 
             expect(parse.metadata.command).to.equal(true);
             expect(parse.metadata.commandName).to.equal('give');
@@ -134,7 +134,7 @@ describe('Mixer', () => {
     });
 
     describe('join', () => {
-        it('parses join events', () => {
+        it('parses join events', async () => {
             const parse = mixer.parseJoin(user_join);
 
             expect(parse.primaryRole).to.equal(Roles.MODERATOR);
@@ -145,7 +145,7 @@ describe('Mixer', () => {
             expect(parse.username).to.equal(user_join.username);
         });
 
-        it('handles a user being streamjar', () => {
+        it('handles a user being streamjar', async () => {
             const parse = mixer.parseJoin(user_join_jar);
 
             expect(parse.primaryRole).to.equal(Roles.DEVELOPER);
@@ -154,7 +154,7 @@ describe('Mixer', () => {
             expect(parse.roles).to.include(Roles.USER);
         });
 
-        it('handles a user being a bot', () => {
+        it('handles a user being a bot', async () => {
             const parse = mixer.parseJoin(user_join_bot);
 
             expect(parse.primaryRole).to.equal(Roles.BOT);

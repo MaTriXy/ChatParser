@@ -76,7 +76,7 @@ export class TwitchParser extends Service<TwitchRawMessage, any> {
 		return this.sortRoles(roles);
 	}
 
-	protected getMessageContext(message: TwitchRawMessage): IContext {
+	protected async getMessageContext(message: TwitchRawMessage): Promise<IContext> {
         const meta = this.parseMeta(message);
 		const roles = this.getRoles(meta, meta['user-id']);
 
