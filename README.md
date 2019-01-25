@@ -5,7 +5,7 @@
 An issue we're running to at StreamJar is everybody handles their chats completely different. Which when you want to support lots of different services in the same way, it can cause less than ideal situations.
 
 ## Quick Note.
-Smashcat has some interesting quirks.. such as no user ids and not easily sending down emotes. Currently emotes are just parsed as raw text.
+Smashcast has some interesting quirks.. in order to parse user ids, you must set a function `sc.setUserIdentifier()` which takes a function from username to id.
 
 ## Installation
 To install, simply install it via NPM.
@@ -22,7 +22,7 @@ const parser = new MixerParser({ developers: [1], bots: [2] });
 
 parser.parse({
 	// raw message
-}, 'bot-username');
+}, 'bot-username'),them(msg => { /* */ });
 ```
 
 ## Expected object

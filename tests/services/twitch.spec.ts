@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { TwitchParser } from "../../src/services/twitch";
+import { TwitchParser } from "../../src/services/Twitch";
 import { basic_message, complicated_role, jar_roles, bot_roles, command, tag, noEmotes } from "../fixtures/twitch-chat";
 import { Roles } from '../../src/roles';
 import { IPlatform } from '../../src/types/Platform';
